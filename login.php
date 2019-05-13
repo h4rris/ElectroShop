@@ -1,3 +1,12 @@
+<?php
+	session_start();
+	require("parameters.php");
+	if(isset($_SESSION['username'])){
+		header('Location: /index.html');
+		//a rediriger en fonction statut
+	}
+  
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -122,12 +131,15 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
-						<form class="row login_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+						
+						
+						
+						<form class="row login_form" method="post" id="contactForm" novalidate="novalidate">
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" id="username" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
@@ -140,6 +152,25 @@
 								<a href="#">Forgot Password?</a>
 							</div>
 						</form>
+						<?php
+							try{
+							$bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
+							}
+							catch (Exception $e){
+								die('Erreur : ' . $e->getMessage());
+							}
+						
+							if (!empty($_POST['username']) && !empty($_POST['password']) ) {
+									$requete1 = $bdd->prepare('SELECT id_user,username,password FROM users WHERE username=:username AND password=:password');
+									$requete1->execute(array(
+										'username' => $_POST['username'],
+										'password' => $_POST['password']
+									));
+									while ($ligne=$requete1->fetch()){
+										
+									}
+							}
+						?>
 					</div>
 				</div>
 			</div>
@@ -206,7 +237,7 @@
 				</div>
 				<div class="col-lg-2 col-md-6 col-sm-6">
 					<div class="single-footer-widget">
-						<h6>Follow Us</h6>
+						<h6>Suivez-nous !</h6>
 						<p>Let us be social</p>
 						<div class="footer-social d-flex align-items-center">
 							<a href="#"><i class="fa fa-facebook"></i></a>
