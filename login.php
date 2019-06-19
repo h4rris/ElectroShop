@@ -122,15 +122,15 @@
 					<div class="login_box_img">
 						<img class="img-fluid" src="img/login.jpg" alt="">
 						<div class="hover">
-							<h4>New to our website?</h4>
-							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
+							<h4>Nouveau sur le site?</h4>
+							<p>Crée un compte pour pouvoir accès à toutes les nouveautés !</p>
 							<a class="primary-btn" href="registration.html">Create an Account</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="login_form_inner">
-						<h3>Log in to enter</h3>
+						<h3>SE CONNECTER</h3>
 						
 						
 						
@@ -144,12 +144,12 @@
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
 									<input type="checkbox" id="f-option2" name="selector">
-									<label for="f-option2">Keep me logged in</label>
+									<label for="f-option2">Me garder connecté</label>
 								</div>
 							</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="primary-btn">Log In</button>
-								<a href="#">Forgot Password?</a>
+								<button type="submit" value="submit" class="primary-btn">SE CONNECTER</button>
+								<a href="#">Mot de passe oublié ?</a>
 							</div>
 						</form>
 						<?php
@@ -161,13 +161,20 @@
 							}
 						
 							if (!empty($_POST['username']) && !empty($_POST['password']) ) {
+								
 									$requete1 = $bdd->prepare('SELECT id_user,username,password FROM users WHERE username=:username AND password=:password');
 									$requete1->execute(array(
 										'username' => $_POST['username'],
 										'password' => $_POST['password']
 									));
 									while ($ligne=$requete1->fetch()){
-										
+										if(($ligne[1] == $_POST['username']) && ($ligne[2] == $_POST['password'])){
+											echo "authentifié";
+											$_SESSION['username'] = $_POST['username'];
+											$_SESSION['id'] = $ligne[0];
+											session_write_close();
+											header('Location: /electroshop/index.php');
+										}
 									}
 							}
 						?>
