@@ -47,7 +47,7 @@
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+					<a class="navbar-brand logo_h" href="index.html"><img src="img/logo_electroShop.png" style="width: 150px;" alt=""></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar"></span>
@@ -119,12 +119,29 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
-					<div class="login_box_img">
-						<img class="img-fluid" src="img/login.jpg" alt="">
+					<div class="login_form_inner">
 						<div class="hover">
-							<h4>Nouveau sur le site?</h4>
+							<h3>CREER UN COMPTE</h3>
 							<p>Crée un compte pour pouvoir accès à toutes les nouveautés !</p>
-							<a class="primary-btn" href="registration.html">Create an Account</a>
+							<form class="row login_form" method="post" id="contactForm" novalidate="novalidate">
+								<div class="col-md-12 form-group">
+									<input type="text" class="form-control" id="Pseudo" name="Pseudo" placeholder="Pseudo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pseudo'">
+								</div>
+								<div class="col-md-12 form-group">
+									<input type="password" class="form-control" id="CreatePassword" name="CreatePassword" placeholder="Entrer le mot de passe" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrer le mot de passe'">
+								</div>
+								<div class="col-md-12 form-group">
+									<input type="password" class="form-control" id="CreatePassword2" name="CreatePassword2" placeholder="Entrer à nouveau le mot de passe" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrer à nouveau le mot de passe'">
+								</div>
+								<div class="col-md-12 form-group">
+									<input type="mail" class="form-control" id="email" name="email" placeholder="Entrer l'adresse email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrer adresse email'">
+								</div>
+								<div class="col-md-12 form-group">
+									<br/>
+									<button type="submit" value="submit" class="primary-btn">SE CONNECTER</button>
+								</div>
+							</form>
+							<!--<a class="primary-btn" href="registration.html">Create an Account</a>-->
 						</div>
 					</div>
 				</div>
@@ -173,7 +190,7 @@
 											$_SESSION['username'] = $_POST['username'];
 											$_SESSION['id'] = $ligne[0];
 											session_write_close();
-											header('Location: /electroshop/index.php');
+											header('Location: /home.php');
 										}
 									}
 							}
