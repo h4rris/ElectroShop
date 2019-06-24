@@ -2,13 +2,11 @@
 	session_start();
 	require("parameters.php");
 	if(isset($_SESSION['username'])){
-		header('Location: /index.html');
-		//a rediriger en fonction statut
+		header('Location: /electroshop/index.php');
 	}
-  
 ?>
 <!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<html>
 
 <head>
 	<!-- Mobile Specific Meta -->
@@ -25,7 +23,8 @@
 	<meta charset="UTF-8">
 	<!-- Site Title -->
 	<title>Electro Shop</title>
-
+	<script src="js/sweetalert.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<!--
 		CSS
 		============================================= -->
@@ -42,10 +41,102 @@
 </head>
 
 <body>
-	<?php
-		include 'navbar.html';
-	?>
 
+	<?php 
+		try{
+			$bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
+			}
+			catch (Exception $e){
+				die('Erreur : ' . $e->getMessage());
+			}
+			
+			if (!empty($_POST['username']) && !empty($_POST['password']) ) {
+				
+					$requete1 = $bdd->prepare('SELECT id_user,username,password FROM users WHERE username=:username AND password=:password');
+					$requete1->execute(array(
+						'username' => $_POST['username'],
+						'password' => $_POST['password']
+					));
+					while ($ligne=$requete1->fetch()){
+						if(($ligne[1] == $_POST['username']) && ($ligne[2] == $_POST['password'])){
+							$_SESSION['username'] = $_POST['username'];
+							$_SESSION['id'] = $ligne[0];
+							session_write_close();
+							mail('villedieu.anthony@yahoo.com', 'Mon Sujet', '98');
+							header('Location: /electroshop/index.php');
+						}
+					}
+			}
+		
+	?>
+	<!-- Start Header Area -->
+	<header class="header_area sticky-header">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="index.php"><img src="img/logo_electroshop.png" style="width :150px;" alt=""></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">Shop</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
+									<li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+									<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">Blog</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown active">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">Pages</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item active"><a class="nav-link" href="login.html">Login</a></li>
+									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
+									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+							<li class="nav-item">
+								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<div class="search_input" id="search_input_box">
+			<div class="container">
+				<form class="d-flex justify-content-between">
+					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+					<button type="submit" class="btn"></button>
+					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+				</form>
+			</div>
+		</div>
+	</header>
+	<!-- End Header Area -->
 	<!-- Start Banner Area -->
 	<br/><br/>
 	<!-- End Banner Area -->
@@ -59,7 +150,7 @@
 						<div class="hover">
 							<h3>CREER UN COMPTE</h3>
 							<p>Crée un compte pour pouvoir accès à toutes les nouveautés !</p>
-							<form class="row login_form" method="post" id="contactForm" novalidate="novalidate">
+							<form class="row login_form" method="post" id="notEmptyForm">
 								<div class="col-md-12 form-group">
 									<input type="text" class="form-control" id="Pseudo" name="Pseudo" placeholder="Pseudo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pseudo'">
 								</div>
@@ -74,20 +165,102 @@
 								</div>
 								<div class="col-md-12 form-group">
 									<br/>
-									<button type="submit" value="submit" class="primary-btn">SE CONNECTER</button>
+									<button type="submit" value="submit" id="buttonCreate" class="primary-btn">CREER LE COMPTE</button>
 								</div>
 							</form>
-							<!--<a class="primary-btn" href="registration.html">Create an Account</a>-->
+							
 						</div>
 					</div>
 				</div>
+				<?php
+				// si le formulaire CREATION est envoyé
+				if(isset(($_POST['CreatePassword'])) && isset($_POST['Pseudo']) && isset($_POST['CreatePassword2']) && isset($_POST['email'])){
+					if(!empty(($_POST['CreatePassword'])) && !empty($_POST['Pseudo']) && !empty($_POST['CreatePassword2']) && !empty($_POST['email'])){
+						if($_POST['CreatePassword'] != $_POST['CreatePassword2']){
+							// ERROR
+						}
+						else{
+							$pseudo_exist = 0;
+							$email_exist = 0;
+							////////////////////////// 1 : PSEUDO 
+							// test si le pseudo existe deja 
+							$rqte = $bdd->prepare('SELECT username FROM users WHERE username=:pseudo;');
+							$rqte->execute(array(
+								'pseudo' => $_POST['Pseudo']
+							));
+							while ($ligne=$rqte->fetch()){
+
+								if($ligne[0] == $_POST['Pseudo']){
+									// le pseudo existe deja
+									$pseudo_exist = 1;
+								}
+								
+							}
+							$rqte->closeCursor();
+							if($pseudo_exist == 0){
+								///TEST SI l'email n'est pas deja utilisé
+								$rqte1 = $bdd->prepare('SELECT email FROM users WHERE email=:email;');
+								$rqte1->execute(array(
+									'email' => $_POST['email']
+								));
+								while ($ligne=$rqte1->fetch()){
+
+									if($ligne[0] == $_POST['email']){
+										// le pseudo existe deja
+										$email_exist = 1;
+									}
+									
+								}
+								$rqte1->closeCursor();
+								if($email_exist == 0){
+									$rqte1 = $bdd->prepare('INSERT INTO users(username,password,email) VALUES(:username,:password,:email);');
+									$rqte1->execute(array(
+										'username' => $_POST['Pseudo'],
+										'password' => $_POST['CreatePassword'],
+										'email' => $_POST['email']
+									));
+									$rqte1->closeCursor();
+									$rqte2 = $bdd->prepare('SELECT id_user WHERE username=:username AND password=:password AND email=:email);');
+									$rqte2->execute(array(
+										'username' => $_POST['Pseudo'],
+										'password' => $_POST['CreatePassword'],
+										'email' => $_POST['email']
+									));
+									while ($ligne=$rqte2->fetch()){
+										$_SESSION['id'] = $ligne[0];
+									}
+									$rqte2->closeCursor();
+									$_SESSION['username'] = $_POST['Pseudo'];
+									
+									?>
+									<script>
+										swal({
+										title: "Compte crée avec succès !",
+										text: "Veuilez dès à présent valider votre compte en cliquant sur le mail que vous avez reçu :)",
+										icon: "success"
+										})
+										.then((willDelete) => {
+											window.location.href = "home.php";
+											
+										});
+									</script>
+									<?php
+								}
+							}
+						}
+						
+					}
+					
+					
+				}
+				?>
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>SE CONNECTER</h3>
 						
 						
 						
-						<form class="row login_form" method="post" id="contactForm" novalidate="novalidate">
+						<form class="row login_form" method="post" id="connectForm">
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="username" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 							</div>
@@ -95,47 +268,20 @@
 								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 							</div>
 							<div class="col-md-12 form-group">
-								<div class="creat_account">
-									<input type="checkbox" id="f-option2" name="selector">
-									<label for="f-option2">Me garder connecté</label>
-								</div>
+								
 							</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="primary-btn">SE CONNECTER</button>
+								<button type="submit" value="submit" id="connectButton" class="primary-btn">SE CONNECTER</button>
 								<a href="#">Mot de passe oublié ?</a>
 							</div>
 						</form>
-						<?php
-							try{
-							$bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
-							}
-							catch (Exception $e){
-								die('Erreur : ' . $e->getMessage());
-							}
 						
-							if (!empty($_POST['username']) && !empty($_POST['password']) ) {
-								
-									$requete1 = $bdd->prepare('SELECT id_user,username,password FROM users WHERE username=:username AND password=:password');
-									$requete1->execute(array(
-										'username' => $_POST['username'],
-										'password' => $_POST['password']
-									));
-									while ($ligne=$requete1->fetch()){
-										if(($ligne[1] == $_POST['username']) && ($ligne[2] == $_POST['password'])){
-											echo "authentifié";
-											$_SESSION['username'] = $_POST['username'];
-											$_SESSION['id'] = $ligne[0];
-											session_write_close();
-											header('Location: /home.php');
-										}
-									}
-							}
-						?>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+	
 	<!--================End Login Box Area =================-->
 
 	<!-- start footer Area -->
@@ -218,11 +364,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</footer>
 	<!-- End footer Area -->
 
-
-	<script src="js/vendor/jquery-2.2.4.min.js"></script>
+								
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
-	<script src="js/vendor/bootstrap.min.js"></script>
+	<script src="js/vendor/bootstrap.min.js"></script
 	<script src="js/jquery.ajaxchimp.min.js"></script>
 	<script src="js/jquery.nice-select.min.js"></script>
 	<script src="js/jquery.sticky.js"></script>
@@ -232,7 +377,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<!--gmaps Js-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="js/gmaps.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/main.js"></script>>
 </body>
 
 </html>
