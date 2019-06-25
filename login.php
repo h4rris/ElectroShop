@@ -51,7 +51,6 @@
 			}
 			
 			if (!empty($_POST['username']) && !empty($_POST['password']) ) {
-				
 					$requete1 = $bdd->prepare('SELECT id_user,username,password FROM users WHERE username=:username AND password=:password');
 					$requete1->execute(array(
 						'username' => $_POST['username'],
@@ -61,11 +60,22 @@
 						if(($ligne[1] == $_POST['username']) && ($ligne[2] == $_POST['password'])){
 							$_SESSION['username'] = $_POST['username'];
 							$_SESSION['id'] = $ligne[0];
-							session_write_close();
-							mail('villedieu.anthony@yahoo.com', 'Mon Sujet', '98');
 							header('Location: /electroshop/index.php');
 						}
 					}
+					?>
+					<script>
+								swal({
+								title: "Nom d'utilisateur ou mot de passe incorrect !",
+								text: "Veuilez réessayer ou créer un compte sinon ",
+								icon: "error"
+								})
+								.then((willDelete) => {
+									window.location.href = "login.php";
+									
+								});
+							</script>
+					<?php
 			}
 		
 	?>
@@ -177,7 +187,19 @@
 				if(isset(($_POST['CreatePassword'])) && isset($_POST['Pseudo']) && isset($_POST['CreatePassword2']) && isset($_POST['email'])){
 					if(!empty(($_POST['CreatePassword'])) && !empty($_POST['Pseudo']) && !empty($_POST['CreatePassword2']) && !empty($_POST['email'])){
 						if($_POST['CreatePassword'] != $_POST['CreatePassword2']){
-							// ERROR
+							?>
+							<script>
+										swal({
+										title: "Mots de passe différent !",
+										text: "Veuilez réessayer ",
+										icon: "warning"
+										})
+										.then((willDelete) => {
+											window.location.href = "login.php";
+											
+										});
+									</script>
+							<?php
 						}
 						else{
 							$pseudo_exist = 0;
@@ -191,7 +213,19 @@
 							while ($ligne=$rqte->fetch()){
 
 								if($ligne[0] == $_POST['Pseudo']){
-									// le pseudo existe deja
+									?>
+									<script>
+												swal({
+												title: "Pseudo déjà utilisé !",
+												text: "",
+												icon: "error"
+												})
+												.then((willDelete) => {
+													window.location.href = "login.php";
+													
+												});
+											</script>
+									<?php
 									$pseudo_exist = 1;
 								}
 								
@@ -206,7 +240,19 @@
 								while ($ligne=$rqte1->fetch()){
 
 									if($ligne[0] == $_POST['email']){
-										// le pseudo existe deja
+										?>
+										<script>
+													swal({
+													title: "Email déjà utilisé !",
+													text: "",
+													icon: "error"
+													})
+													.then((willDelete) => {
+														window.location.href = "login.php";
+														
+													});
+												</script>
+										<?php
 										$email_exist = 1;
 									}
 									
@@ -231,18 +277,32 @@
 									}
 									$rqte2->closeCursor();
 									$_SESSION['username'] = $_POST['Pseudo'];
-									
+									session_write_close();
 									?>
 									<script>
-										swal({
-										title: "Compte crée avec succès !",
-										text: "Veuilez dès à présent valider votre compte en cliquant sur le mail que vous avez reçu :)",
-										icon: "success"
-										})
-										.then((willDelete) => {
-											window.location.href = "home.php";
-											
+										$.ajax({
+											url : "send_verification.php",
+											data : {
+												email : 'villedieu.anthony@yahoo.com'
+											},
+											dataType : 'json',
+											cache : false,
+											success : function(response){
+												swal({
+												title: "Compte crée avec succès !",
+												text: "Veuilez dès à présent valider votre compte en cliquant sur le mail que vous avez reçu :)",
+												icon: "success"
+												})
+												.then((willDelete) => {
+													window.location.href = "index.php";
+													
+												});
+											},
+											error : function(error){
+												console.log(error);
+											}
 										});
+										
 									</script>
 									<?php
 								}
@@ -251,15 +311,11 @@
 						
 					}
 					
-					
 				}
 				?>
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>SE CONNECTER</h3>
-						
-						
-						
 						<form class="row login_form" method="post" id="connectForm">
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="username" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
