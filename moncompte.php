@@ -85,8 +85,19 @@
 									<li class="nav-item"><a class="nav-link" href="elements.php">Elements</a></li>
 								</ul>
 							</li>
-							<li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-							<li class="nav-item submenu dropdown">
+                            <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                            <?php 
+							if($_SESSION['statut'] == "1"){?>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle">Administration</a>
+                                    <ul class="dropdown-menu">	
+                                        <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+                                    </ul>
+                                </li><?php
+                            }
+                            ?>
+                            <li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false"></span></a>
 								<ul class="dropdown-menu">
@@ -105,17 +116,17 @@
 										}
 										?>
 								</ul>
-							</li>
+                            </li>
+                            
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-							
-						</ul>
+                        </ul>
 					</div>
 				</div>
 			</nav>
-		</div>
-		<div class="search_input" id="search_input_box">
+        </div>
+        <div class="search_input" id="search_input_box">
 			<div class="container">
 				<form class="d-flex justify-content-between">
 					<input type="text" class="form-control" id="search_input" placeholder="Search Here">

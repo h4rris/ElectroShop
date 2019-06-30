@@ -51,7 +51,7 @@
 			}
 			
 			if (!empty($_POST['username']) && !empty($_POST['password']) ) {
-					$requete1 = $bdd->prepare('SELECT id_user,username,password FROM users WHERE username=:username AND password=:password');
+					$requete1 = $bdd->prepare('SELECT id_user,username,password,statut FROM users WHERE username=:username AND password=:password');
 					$requete1->execute(array(
 						'username' => $_POST['username'],
 						'password' => $_POST['password']
@@ -60,6 +60,13 @@
 						if(($ligne[1] == $_POST['username']) && ($ligne[2] == $_POST['password'])){
 							$_SESSION['username'] = $_POST['username'];
 							$_SESSION['id'] = $ligne[0];
+							if($ligne[3] == "1"){
+								$_SESSION['statut'] = 1;
+							}
+							else{
+								$_SESSION['statut'] =0;
+							}
+							
 							header('Location: /electroshop/index.php');
 						}
 					}
@@ -131,9 +138,7 @@
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
+							
 						</ul>
 					</div>
 				</div>
@@ -280,15 +285,15 @@
 									}
 									$rqte2->closeCursor();
 									$_SESSION['username'] = $_POST['Pseudo'];
+									$_SESSION['statut']=0;
 									session_write_close();
 									?>
 									<script>
 										$.ajax({
 											url : "send_verification.php",
 											data : {
-												email : 'villedieu.anthony@yahoo.com'
+												email : "<?php echo $_POST['email'];?>"
 											},
-											dataType : 'json',
 											cache : false,
 											success : function(response){
 												swal({
