@@ -5,7 +5,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
+	<link rel="shortcut icon" href="img/logo_flavicon.ico">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -47,10 +47,10 @@
 						<div class="row single-slide align-items-center d-flex">
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
-									<h1>La nouvelle <br>Arduino Uno!</h1>
-									<p>Ajoutez le WiFi à vos appareils avec le WiFi Arduino Uno. Il s’agit en réalité d’un Arduino Uno Rev3 avec plus de puissance: il est livré avec un tout nouveau microprocesseur 8 bits de Microchip et une unité de mesure de l’inertie (IMU) intégrée. Quant à la connexion WiFi, elle est sécurisée avec le nouvel accélérateur de puce cryptographique ECC608.</p>
+									<h1>Le nouveau <br>MacBook Pro</h1>
+									<p>Avec le MacBook Pro, l’ordinateur portable atteint des sommets inédits en matière de performances et de portabilité. Quelles que soient les contrées où vous mènera votre imagination, vous parviendrez plus vite que jamais à vos objectifs grâce, entre autres, à des processeurs et à une mémoire hautes performances, à des graphismes avancés et à un système de stockage d’une rapidité fulgurante.</p>
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+										<a class="add-btn" href="cart.php?id=1"><span class="lnr lnr-cross" role="button"></span></a>
 										<span class="add-text text-uppercase">Ajouter au panier</span>
 									</div>
 								</div>
@@ -63,22 +63,7 @@
 						</div>
 						<!-- single-slide -->
 						<div class="row single-slide">
-							<div class="col-lg-5">
-								<div class="banner-content">
-									<h1>Nike New <br>Collection!</h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-7">
-								<div class="banner-img">
-									<img class="img-fluid" src="img/banner/banner-img.png" alt="">
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -146,9 +131,10 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid w-100" src="img/category/c1_1.png" alt="">
-								<a href="img/category/c1.jpg" class="img-pop-up" target="_blank">
 									<div class="deal-details">
+										<a href="category.php?filter=IT_office" class="deal-title" target="_blank">
 										<h6 class="deal-title">Informatique et Bureautique</h6>
+										</a>
 									</div>
 								</a>
 							</div>
@@ -156,34 +142,29 @@
 						<div class="col-lg-4 col-md-4">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c2.jpg" alt="">
-								<a href="img/category/c2.jpg" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="img/category/c2.png" alt="">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<a href="category.php?filter=sound_light" class="deal-title" target="_blank">
+										<h6 class="deal-title">Sonorité et Lumière</h6></a>
 									</div>
-								</a>
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-4">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c3.jpg" alt="">
-								<a href="img/category/c3.jpg" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="img/category/c3.png" alt="">
 									<div class="deal-details">
-										<h6 class="deal-title">Product for Couple</h6>
+										<a href="category.php?filter=audio_hifi" class="deal-title" target="_blank"><h6 class="deal-title">Audio et HIFI</h6></a>
 									</div>
-								</a>
 							</div>
 						</div>
 						<div class="col-lg-8 col-md-8">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c4.jpg" alt="">
-								<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
+								<img class="img-fluid w-100" src="img/category/c4.png" alt="">
 									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
+										<a href="category.php?filter=garden" class="deal-title" target="_blank"><h6 class="deal-title">Jardin et Bricolage</h6></a>
 									</div>
-								</a>
 							</div>
 						</div>
 					</div>
@@ -194,7 +175,7 @@
 						<img class="img-fluid w-100" src="img/category/c5.jpg" alt="">
 						<a href="img/category/c5.jpg" class="img-pop-up" target="_blank">
 							<div class="deal-details">
-								<h6 class="deal-title">Sneaker for Sports</h6>
+								<h6 class="deal-title">Les produits soldés</h6>
 							</div>
 						</a>
 					</div>
