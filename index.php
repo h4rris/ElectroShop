@@ -116,7 +116,8 @@
                                     <a href="#" class="nav-link dropdown-toggle">Administration</a>
                                     <ul class="dropdown-menu">	
                                         <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
                                     </ul>
                                 </li><?php
 							}
@@ -129,7 +130,7 @@
 									<?php 
 										if(isset($_SESSION['username'])){
 											?>
-											<li class="nav-item"><a class="nav-link" href="elements.php">Mes commandes</a></li>
+											<li class="nav-item"><a class="nav-link" href="commandes.php">Mes commandes</a></li>
 											<li class="nav-item"><a class="nav-link" href="moncompte.php">Mon compte</a></li>
 											<li class="nav-item"><a class="nav-link" href="deconnexion.php">Se déconnecter</a></li>
 											<?php
@@ -151,16 +152,6 @@
 				</div>
 			</nav>
         </div>
-        <div class="search_input" id="search_input_box">
-			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
-		</div>
-		
 	</div>
 	<!-- End Header Area -->
 
