@@ -51,20 +51,24 @@
 			}
 			
 			if (!empty($_POST['username']) && !empty($_POST['password']) ) {
-					$requete1 = $bdd->prepare('SELECT id_user,username,password,statut FROM users WHERE username=:username AND password=:password');
+					$requete1 = $bdd->prepare('SELECT id_user,username,password,statut FROM users WHERE username=:username AND password=:password AND statut != 0');
 					$requete1->execute(array(
 						'username' => $_POST['username'],
 						'password' => $_POST['password']
 					));
 					while ($ligne=$requete1->fetch()){
+
 						if(($ligne[1] == $_POST['username']) && ($ligne[2] == $_POST['password'])){
 							$_SESSION['username'] = $_POST['username'];
 							$_SESSION['id'] = $ligne[0];
 							if($ligne[3] == "1"){
 								$_SESSION['statut'] = 1;
 							}
-							else{
-								$_SESSION['statut'] =0;
+							elseif($ligne[3] == "2"){
+								$_SESSION['statut'] =2;
+							}
+							elseif ($ligne[3] == "3") {
+								$_SESSION['statut'] =3;
 							}
 							
 							header('Location: /electroshop/index.php');
@@ -267,7 +271,7 @@
 								}
 								$rqte1->closeCursor();
 								if($email_exist == 0){
-									$rqte1 = $bdd->prepare('INSERT INTO users(username,password,email) VALUES(:username,:password,:email);');
+									$rqte1 = $bdd->prepare('INSERT INTO users(username,password,email,statut) VALUES(:username,:password,:email,"1");');
 									$rqte1->execute(array(
 										'username' => $_POST['Pseudo'],
 										'password' => $_POST['CreatePassword'],
@@ -285,7 +289,7 @@
 									}
 									$rqte2->closeCursor();
 									$_SESSION['username'] = $_POST['Pseudo'];
-									$_SESSION['statut']=0;
+									$_SESSION['statut']=1;
 									session_write_close();
 									?>
 									<script>
@@ -339,7 +343,7 @@
 							</div>
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" id="connectButton" class="primary-btn">SE CONNECTER</button>
-								<a href="#">Mot de passe oublié ?</a>
+								<a href="#" onclick=mdpforget()>Mot de passe oublié ?</a>
 							</div>
 						</form>
 						
@@ -349,7 +353,43 @@
 			</div>
 		</div>
 	</section>
-	
+	<script>
+		function mdpforget(){
+			swal({
+            title: "Etes-vous sur d'avoir oublié votre mot de passe ?",
+            text: "Si oui, entrer votre email :",
+            icon: "warning",
+			content:"input",
+            buttons: true,
+            dangerMode: true,
+            })
+			.then((value) => {
+                
+				console.log(id_user);
+				$.ajax({
+					url : "oublie_mdp.php",
+					data : {
+						email: value
+					},
+					cache : false,
+					success : function(response){
+						swal("Action traitée avec succès!", {
+							icon: "success",
+							timer: 3000
+						})
+						.then((willDelete) => {
+								window.location.href = "login.php";
+						
+						});
+					},
+					error : function(request, error){
+						console.log(error);
+					}
+				});
+                
+            });
+		}
+	</script>
 	<!--================End Login Box Area =================-->
 
 	<!-- start footer Area -->

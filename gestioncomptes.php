@@ -111,6 +111,17 @@
 								</ul>
 							</li>
                             <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                            <?php 
+							if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle">Administration</a>
+                                    <ul class="dropdown-menu">	
+                                        <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+                                    </ul>
+                                </li><?php
+                            }
+                            ?> 
                             <li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false"></span></a>
@@ -131,20 +142,11 @@
 										?>
 								</ul>
                             </li>
-                            <?php 
-							if($_SESSION['statut'] == "1"){?>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle">Administration</a>
-                                    <ul class="dropdown-menu">	
-                                        <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
-                                    </ul>
-                                </li><?php
-                            }
-                            ?> 
+                            
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+                            
+							<li class="nav-item"><?php echo "0";?><a href="#" class="cart"><span class="ti-bag"></span></a></li>
                         </ul>
 					</div>
 				</div>
@@ -189,59 +191,279 @@
                                 }
                                 else{
                                     if($ligne[2] == 1){
+                                        echo "<td><span class='status--process'>Compte activé</span></td><td>";
+                                        
+                                    }
+                                    elseif ($ligne[2] == 2) {
                                         echo "<td><span class='status--process'>Compte activé : Administrateur</span></td><td>";
+                                        
+                                    }
+                                    elseif ($ligne[2] == 3) {
+                                        echo "<td><span class='status--process'>Compte activé :  Super-Administrateur</span></td><td>";
                                     }
                                     else{
-                                        echo "<td><span class='status--process'>Compte activé</span></td><td>";
+                                        echo "<td><span class='status--denied'>Compte désactivé</span></td><td>";
                                     }
                                     
-                                }?>
+                                }
+                                ?>
                                 <div class="table-data-feature">
                                 <?php 
-                                echo "<button  class='item' data-toggle='tooltip' data-placement='top' title='Gérer les stocks' >
-                                <i class='zmdi zmdi-plus'></i>
-                                </button>";
-                                echo "<button  class='item' data-toggle='tooltip' data-placement='top' title='Supprimer'>
-                                    <i class='zmdi zmdi-delete'></i>
-                                </button>";
-                                echo "<button class='item' data-toggle='tooltip' data-placement='top' title='Modifier le prix'>
-                                    <i class='zmdi zmdi-money'></i>
-                                </button>"; 
+                                if($_SESSION['statut'] == "2"){
+                                    if($_SESSION['statut'] > $ligne[2]){
+                                        // il peux promouvoir et desactiver et supprimer
+                                        if($ligne[2] == 0){
+                                            echo "<button onclick=activ('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Activer le compte' >
+                                            <i class='zmdi zmdi-eye'></i>
+                                            </button>";
+                                        }
+                                        else{
+                                            echo "<button onclick=desact('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Désactiver le compte' >
+                                            <i class='zmdi zmdi-eye-off'></i>
+                                            </button>";
+                                        }
+                                            echo "<button onclick=suppr('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Supprimer le compte'>
+                                            <i class='zmdi zmdi-delete'></i>
+                                        </button>";
+                                        if($ligne[2] != 0){
+                                        echo "<button onclick=prom('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Promouvoir le compte'>
+                                            <i class='zmdi zmdi-thumb-up'></i>
+                                        </button>";
+                                        } 
+                                    }
+                                }
+                                elseif ($_SESSION['statut'] == "3") {
+                                    if($_SESSION['statut'] > $ligne[2]){
+                                        // il peux promouvoir retrograder desactiver et supprimer.
+                                        if($ligne[2] == 0){
+                                            echo "<button onclick=activ('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Activer le compte' >
+                                            <i class='zmdi zmdi-eye'></i>
+                                            </button>";
+                                        }
+                                        else{
+                                            echo "<button onclick=desact('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Désactiver le compte' >
+                                            <i class='zmdi zmdi-eye-off'></i>
+                                            </button>";
+                                        }
+                                        echo "<button onclick=suppr('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Supprimer le compte'>
+                                            <i class='zmdi zmdi-delete'></i>
+                                        </button>";
+                                        echo "<button onclick=prom('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Promouvoir le compte'>
+                                            <i class='zmdi zmdi-thumb-up'></i>
+                                        </button>";
+                                        if($ligne[2] != 0){
+                                        echo "<button onclick=retro('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Dégrader le compte'>
+                                            <i class='zmdi zmdi-thumb-down'></i>
+                                        </button>";
+                                        }
+                                    }
+                                }
                                 ?>
                                 </div><?php
                                 echo "</td></tr>";
                             }
-                            $requete->CloseCursor();
-                        ?>
-                        
+                            $requete->CloseCursor();?>
                     </tbody>
                 </table>
-
                 </div>
-            
             </div>
         </div>
     </section>
     <script>
-        
         $("#table_id").DataTable( {
-
-        "language": {
-            "lengthMenu": "Affichage _MENU_ ligne par page ",
-            "zeroRecords": "Désolé Rien trouvé",
-            "info": "Affichage de la page _PAGE_ sur _PAGES_",
-            "infoEmpty": "Aucun fichier trouvé",
-            "infoFiltered": "(filtré parmi _MAX_ lignes au total)",
-            "search":"rechercher"
-        },
-        "paging" : false,
-        stateSave: true,
-        aLengthMenu: [
-        [10, 25, 50, 100, -1],
-        [10, 25, 50, 100, "Tout"]
-        ]
+            "language": {
+                "lengthMenu": "Affichage _MENU_ ligne par page ",
+                "zeroRecords": "Désolé Rien trouvé",
+                "info": "Affichage de la page _PAGE_ sur _PAGES_",
+                "infoEmpty": "Aucun fichier trouvé",
+                "infoFiltered": "(filtré parmi _MAX_ lignes au total)",
+                "search":"rechercher"
+            },
+            "paging" : false,
+            stateSave: true,
+            aLengthMenu: [
+            [10, 25, 50, 100, -1],
+            [10, 25, 50, 100, "Tout"]
+            ]
         });
-        
+        function desact(id_user){
+            swal({
+            title: "Etes-vous sur de vouloir désactiver cet utilisateur?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_user);
+                    $.ajax({
+                        url : "modif_user.php",
+                        data : {
+                            typeChgmnt: 'desactiver',
+                            id_user: id_user
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncomptes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });    
+        }
+        function activ(id_user){
+            swal({
+            title: "Etes-vous sur de vouloir Activer cet utilisateur?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_user);
+                    $.ajax({
+                        url : "modif_user.php",
+                        data : {
+                            typeChgmnt: 'activer',
+                            id_user: id_user
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncomptes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });
+            
+        }
+        function prom(id_user){
+            swal({
+            title: "Etes-vous sur de vouloir promouvoir cet utilisateur?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_user);
+                    $.ajax({
+                        url : "modif_user.php",
+                        data : {
+                            typeChgmnt: 'promouvoir',
+                            id_user: id_user
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncomptes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });
+            
+        }
+        function retro(id_user){
+            swal({
+            title: "Etes-vous sur de vouloir retrograder cet utilisateur?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_user);
+                    $.ajax({
+                        url : "modif_user.php",
+                        data : {
+                            typeChgmnt: 'retrograder',
+                            id_user: id_user
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncomptes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });
+            
+        }
+        function suppr(id_user){
+            swal({
+            title: "Etes-vous sur de vouloir supprimer cet utilisateur?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_user);
+                    $.ajax({
+                        url : "modif_user.php",
+                        data : {
+                            typeChgmnt: 'suppression',
+                            id_user: id_user
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncomptes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            }); 
+        }
     </script>
     <!--================Blog Area =================-->
 

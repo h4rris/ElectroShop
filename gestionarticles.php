@@ -111,6 +111,17 @@
 								</ul>
 							</li>
                             <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                            <?php 
+							if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle">Administration</a>
+                                    <ul class="dropdown-menu">	
+                                        <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+                                    </ul>
+                                </li><?php
+                            }
+                            ?>
                             <li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false"></span></a>
@@ -131,18 +142,7 @@
 										?>
 								</ul>
                             </li>
-                            <?php 
-							if($_SESSION['statut'] == "1"){?>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle">Administration</a>
-                                    <ul class="dropdown-menu">	
-                                        <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
-                                    </ul>
-                                </li><?php
-                            }
-                            ?> 
-						</ul>
+                        </ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
                         </ul>

@@ -87,7 +87,7 @@
 							</li>
                             <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                             <?php 
-							if($_SESSION['statut'] == "1"){?>
+							if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
                                 <li class="nav-item submenu dropdown">
                                     <a href="#" class="nav-link dropdown-toggle">Administration</a>
                                     <ul class="dropdown-menu">	
