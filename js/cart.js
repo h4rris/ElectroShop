@@ -16,7 +16,7 @@ $(document).ready(function(){
 		// console.log(existingEntries);
 
 		existingEntries.forEach(function(element) {
-			$('#cart_body').prepend('<tr><td><div class="media"><div class="d-flex"><img src="'+ element.image +'" style="height: 137px; width: 191px;" alt=""></div> <div class="media-body"> <p>'+ element.text +'</p> </div> </div> </td> <td> <h5 class="prix_article">'+ element.prix + '€' + '</h5> </td> <td> <div class="product_count"> <input type="text" name="qty" class="quantity" maxlength="12" value="'+ element.quantity +'" title="Quantity:" class="input-text qty"> <button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button> <button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button> </div> </td> <td> <h5 class="prix_total_par_article">'+ element.quantity * element.prix + "€" +'</h5> </td> </tr>');
+			$('#cart_body').prepend('<tr><td><div class="media"><div class="d-flex"><img src="'+ element.image +'" style="height: 137px; width: 191px;" alt=""></div> <div class="media-body"> <p>'+ element.text +'</p> </div> </div> </td> <td> <h5 class="prix_article">'+ element.prix + '€' + '</h5> </td> <td> <div class="product_count"> <input type="text" name="qty" class="quantity" maxlength="12" value="'+ element.quantity +'" title="Quantity:" class="input-text qty"> <button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button> <button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button> </div> </td> <td> <h5 class="prix_total_par_article" style="display: inline-block">'+ element.quantity * element.prix + "€" +'</h5> <button type="button" class="btn btn-danger">X</button> </td> </tr>');
 
 		});
 
