@@ -436,31 +436,38 @@
                 dangerMode: true,
                 })
                 .then((value) => {
-                    var stock = value;
-                    console.log(stock);
-                    console.log(id_article);
-                    $.ajax({
-                        url : "modif_article.php",
-                        data : {
-                            typeChgmnt: 'stock',
-                            id_article: id_article,
-                            stock : stock
-                        },
-                        cache : false,
-                        success : function(response){
-                            swal("Action traitée avec succès!", {
-                                icon: "success",
-                                timer: 3000
-                            })
-                            .then((willDelete) => {
-                                    window.location.href = "gestionarticles.php";
-                            
-                            });
-                        },
-                        error : function(request, error){
-                            console.log(error);
-                        }
-                    });
+                    if(value){
+                        var stock = value;
+                        console.log(stock);
+                        console.log(id_article);
+                        $.ajax({
+                            url : "modif_article.php",
+                            data : {
+                                typeChgmnt: 'stock',
+                                id_article: id_article,
+                                stock : stock
+                            },
+                            cache : false,
+                            success : function(response){
+                                swal("Action traitée avec succès!", {
+                                    icon: "success",
+                                    timer: 3000
+                                })
+                                .then((willDelete) => {
+                                        window.location.href = "gestionarticles.php";
+                                
+                                });
+                            },
+                            error : function(request, error){
+                                console.log(error);
+                            }
+                        });
+                    }
+                    else{
+                        swal("Changement de prix annulé!", {
+                        icon: "info",
+                        });
+                    }
                 });
             
         }
@@ -508,31 +515,38 @@
                 dangerMode: true,
                 })
                 .then((value) => {
-                    var prix = value;
-                    console.log(prix);
-                    console.log(id_article);
-                    $.ajax({
-                        url : "modif_article.php",
-                        data : {
-                            typeChgmnt: 'prix',
-                            id_article: id_article,
-                            prix : prix
-                        },
-                        cache : false,
-                        success : function(response){
-                            swal("Action traitée avec succès!", {
-                                icon: "success",
-                                timer: 3000
-                            })
-                            .then((willDelete) => {
-                                    window.location.href = "gestionarticles.php";
-                            
-                            });
-                        },
-                        error : function(request, error){
-                            console.log(error);
-                        }
-                    });
+                    if(value){
+                        var prix = value;
+                        console.log(prix);
+                        console.log(id_article);
+                        $.ajax({
+                            url : "modif_article.php",
+                            data : {
+                                typeChgmnt: 'prix',
+                                id_article: id_article,
+                                prix : prix
+                            },
+                            cache : false,
+                            success : function(response){
+                                swal("Action traitée avec succès!", {
+                                    icon: "success",
+                                    timer: 3000
+                                })
+                                .then((willDelete) => {
+                                        window.location.href = "gestionarticles.php";
+                                
+                                });
+                            },
+                            error : function(request, error){
+                                console.log(error);
+                            }
+                        });
+                    }
+                    else{
+                        swal("Changement de prix annulé!", {
+                        icon: "info",
+                        });
+                    }
                 });
             
         }
