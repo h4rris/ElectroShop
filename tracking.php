@@ -1,12 +1,12 @@
 <?php
     session_start();
     require("parameters.php");
-	if(!isset($_SESSION['username'])){
-		header('Location: index.php');
-	}
+	// if(!isset($_SESSION['username'])){
+	// 	header('Location: index.php');
+	// }
 	
 ?><!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<html lang="fr">
 
 <head>
     <!-- Mobile Specific Meta -->
@@ -28,16 +28,31 @@
     <!--
             CSS
             ============================================= -->
-    <link rel="stylesheet" href="css/linearicons.css">
-    <link rel="stylesheet" href="css/owl.carousel.css">
+            <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/themify-icons.css">
+    <link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/nice-select.css">
     <link rel="stylesheet" href="css/nouislider.min.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="css/style.css">
     <link href="css/style_track.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="css/main.css">
+    <link href="css/select2.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link href="css/buttons.dataTables.min.css" rel="stylesheet" media="all">
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <script src="js/sweetalert.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script> 
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="js/dataTables.buttons.min.js"></script>
+<script src="js/buttons.flash.min.js"></script>
+<script src="js/buttons.html5.min.js"></script>
+<script src="js/buttons.print.min.js"></script>
+    
     
 </head>
 
@@ -80,22 +95,13 @@
 							</li>
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
+								 aria-expanded="false">COMMANDE</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.php">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.php">Blog Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="commandes.php">Suivre ma commande</a></li>
+									
 								</ul>
 							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="tracking.php">Tracking</a></li>
-									<li class="nav-item"><a class="nav-link" href="elements.php">Elements</a></li>
-								</ul>
-							</li>
-                            <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+							
                             <?php 
 							if(isset($_SESSION['statut'])){
 								
@@ -157,290 +163,592 @@
 
     <!--================Tracking Box Area =================-->
     <section class="tracking_box_area section_gap">
-    <h3 class="title-5 m-b-35 text-center">Commande Numéro : <?php echo $_POST['order'];?></h3>
+    <h3 class="title-5 m-b-35 text-center">Commande Numéro : <?php echo $_GET['order'];?></h3>
         <?php
-            $requete = $bdd->prepare('SELECT statut_commande FROM commande WHERE id_commande=:id_commande');
-            $requete->execute(array(
-                'id_commande' => $_POST['order']
-            ));
-            $existe=0;
-            while ($ligne=$requete->fetch()){
-                $existe=1;
-                if($ligne[0] =="valide"){
+            if(!isset($_SESSION['username'])){
+                if(empty($_GET['order']) || empty($_GET['mail'])){
                     ?>
-                    <div class="container">
-                        <div class="row">
-                        <div class="content">
-                            <div class="content2 d-flex justify-content-center">
-                                <div class="content2-header1">
-                                    <p>Status : <span><?php echo $ligne[0];?></span></p>
-                                </div>
-                                <div class="content2-header1">
-                                    <p>Expected Date : <span>7-NOV-2015</span></p>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="content3">
-                                <div class="shipment d-flex justify-content-center">
-                                    <div class="confirm">
-                                        <div class="imgcircle">
-                                            <img src="img/confirm.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Confirmé</p>
-                                    </div>
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/process.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>en cours de préparation</p>
-                                    </div>
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/dispatch.png" alt="dispatch product">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Commande expédiée</p>
-                                    </div>
-                                    <div class="delivery">
-                                        <div class="imgcircle">
-                                            <img src="img/delivery.png" alt="delivery">
-                                        </div>
-                                        <p>Commande délivrée</p>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                            
-                        </div>
-                    </div>
-                    <?php
+                        <script>
+                        swal("Erreur ID de Commande Invalide !", {
+                            icon: "error",
+                            timer: 3000
+                        })
+                        .then((willDelete) => {
+                                window.location.href = "commandes.php";
+                        
+                        });
+                        </script><?php 
                 }
-                elseif ($ligne[0] =="en cours validation") {
-                    ?>
-                    <div class="container">
-                        <div class="row">
-                        <div class="content">
-                            <div class="content2 d-flex justify-content-center">
-                                <div class="content2-header1">
-                                    <p>Status : <span><?php echo $ligne[0];?></span></p>
+                else{
+                    $requete = $bdd->prepare('SELECT DISTINCT(statut_commande) FROM commande INNER JOIN panier AS p ON commande.id_panier = p.id_panier INNER JOIN users AS u ON p.id_user=u.id_user WHERE id_commande=:id_commande AND u.email=:email');
+                    $requete->execute(array(
+                        'id_commande' => $_GET['order'],
+                        'email' => $_GET['mail']
+                    ));
+                    $existe=0;
+                    while ($ligne=$requete->fetch()){
+                        $existe=1;
+                        if($ligne[0] =="valide"){
+                            ?>
+                            <div class="container">
+                                <div class="row">
+                                <div class="content">
+                                    <div class="content2 d-flex justify-content-center">
+                                        <div class="content2-header1">
+                                            <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                        </div>
+                                        <div class="content2-header1">
+                                            <p>Expected Date : <span>7-NOV-2015</span></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="content3">
+                                        <div class="shipment d-flex justify-content-center">
+                                            <div class="confirm">
+                                                <div class="imgcircle">
+                                                    <img src="img/confirm.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Confirmé</p>
+                                            </div>
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/process.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>en cours de préparation</p>
+                                            </div>
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/dispatch.png" alt="dispatch product">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Commande expédiée</p>
+                                            </div>
+                                            <div class="delivery">
+                                                <div class="imgcircle">
+                                                    <img src="img/delivery.png" alt="delivery">
+                                                </div>
+                                                <p>Commande délivrée</p>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="content2-header1">
-                                    <p>Expected Date : <span>7-NOV-2015</span></p>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="content3">
-                                <div class="shipment d-flex justify-content-center">
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/confirm.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Confirmé</p>
-                                    </div>
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/process.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>en cours de préparation</p>
-                                    </div>
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/dispatch.png" alt="dispatch product">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Commande expédiée</p>
-                                    </div>
-                                    <div class="delivery">
-                                        <div class="imgcircle">
-                                            <img src="img/delivery.png" alt="delivery">
-                                        </div>
-                                        <p>Commande délivrée</p>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                            
-                        </div>
-                    </div>
-                    <?php
-                }
-                elseif ($ligne[0] =="en cours preparation") {
-                    ?>
-                    <div class="container">
-                        <div class="row">
-                        <div class="content">
-                            <div class="content2 d-flex justify-content-center">
-                                <div class="content2-header1">
-                                    <p>Status : <span><?php echo $ligne[0];?></span></p>
-                                </div>
-                                <div class="content2-header1">
-                                    <p>Expected Date : <span>7-NOV-2015</span></p>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="content3">
-                                <div class="shipment d-flex justify-content-center">
-                                    <div class="confirm">
-                                        <div class="imgcircle">
-                                            <img src="img/confirm.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Confirmé</p>
-                                    </div>
-                                    <div class="confirmfinal">
-                                        <div class="imgcircle">
-                                            <img src="img/process.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>en cours de préparation</p>
-                                    </div>
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/dispatch.png" alt="dispatch product">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Commande expédiée</p>
-                                    </div>
-                                    <div class="delivery">
-                                        <div class="imgcircle">
-                                            <img src="img/delivery.png" alt="delivery">
-                                        </div>
-                                        <p>Commande délivrée</p>
-                                    </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
                             </div>
-                        </div>
-                            
-                        </div>
-                    </div>
-                    <?php
-                }
-                elseif ($ligne[0] =="annule") {
-                    ?>
-                    <div class="container">
-                        <div class="row">
-                        <div class="content">
-                            <div class="content2 d-flex justify-content-center">
-                                <div class="content2-header1">
-                                    <p>Status : <span><?php echo $ligne[0];?></span></p>
+                            <?php
+                        }
+                        elseif ($ligne[0] =="en cours validation") {
+                            ?>
+                            <div class="container">
+                                <div class="row">
+                                <div class="content">
+                                    <div class="content2 d-flex justify-content-center">
+                                        <div class="content2-header1">
+                                            <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                        </div>
+                                        <div class="content2-header1">
+                                            <p>Expected Date : <span>7-NOV-2015</span></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="content3">
+                                        <div class="shipment d-flex justify-content-center">
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/confirm.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Confirmé</p>
+                                            </div>
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/process.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>en cours de préparation</p>
+                                            </div>
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/dispatch.png" alt="dispatch product">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Commande expédiée</p>
+                                            </div>
+                                            <div class="delivery">
+                                                <div class="imgcircle">
+                                                    <img src="img/delivery.png" alt="delivery">
+                                                </div>
+                                                <p>Commande délivrée</p>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="content2-header1">
-                                    <p>Expected Date : <span>7-NOV-2015</span></p>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="content3">
-                                <div class="shipment d-flex justify-content-center">
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/confirm.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Confirmé</p>
-                                    </div>
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/process.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>en cours de préparation</p>
-                                    </div>
-                                    <div class="dispatch">
-                                        <div class="imgcircle">
-                                            <img src="img/dispatch.png" alt="dispatch product">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Commande expédiée</p>
-                                    </div>
-                                    <div class="delivery">
-                                        <div class="imgcircle">
-                                            <img src="img/delivery.png" alt="delivery">
-                                        </div>
-                                        <p>Commande délivrée</p>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                            
-                        </div>
-                    </div>
-                    <?php
-                }
-                elseif ($ligne[0] =="expedie") {
-                    ?>
-                    <div class="container">
-                        <div class="row">
-                        <div class="content">
-                            <div class="content2 d-flex justify-content-center">
-                                <div class="content2-header1">
-                                    <p>Status : <span><?php echo $ligne[0];?></span></p>
-                                </div>
-                                <div class="content2-header1">
-                                    <p>Expected Date : <span>7-NOV-2015</span></p>
-                                </div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="content3">
-                                <div class="shipment d-flex justify-content-center">
-                                    <div class="confirm">
-                                        <div class="imgcircle">
-                                            <img src="img/confirm.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Confirmé</p>
-                                    </div>
-                                    <div class="confirmfinal">
-                                        <div class="imgcircle">
-                                            <img src="img/process.png">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>en cours de préparation</p>
-                                    </div>
-                                    <div class="confirmfinal">
-                                        <div class="imgcircle">
-                                            <img src="img/dispatch.png" alt="dispatch product">
-                                        </div>
-                                        <span class="line"></span>
-                                        <p>Commande expédiée</p>
-                                    </div>
-                                    <div class="delivery">
-                                        <div class="imgcircle">
-                                            <img src="img/delivery.png" alt="delivery">
-                                        </div>
-                                        <p>Commande délivrée</p>
-                                    </div>
-                                    <div class="clear"></div>
+                                    
                                 </div>
                             </div>
-                        </div>
-                            
-                        </div>
-                    </div>
-                    <?php
+                            <?php
+                        }
+                        elseif ($ligne[0] =="en cours preparation") {
+                            ?>
+                            <div class="container">
+                                <div class="row">
+                                <div class="content">
+                                    <div class="content2 d-flex justify-content-center">
+                                        <div class="content2-header1">
+                                            <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                        </div>
+                                        <div class="content2-header1">
+                                            <p>Expected Date : <span>7-NOV-2015</span></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="content3">
+                                        <div class="shipment d-flex justify-content-center">
+                                            <div class="confirm">
+                                                <div class="imgcircle">
+                                                    <img src="img/confirm.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Confirmé</p>
+                                            </div>
+                                            <div class="confirmfinal">
+                                                <div class="imgcircle">
+                                                    <img src="img/process.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>en cours de préparation</p>
+                                            </div>
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/dispatch.png" alt="dispatch product">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Commande expédiée</p>
+                                            </div>
+                                            <div class="delivery">
+                                                <div class="imgcircle">
+                                                    <img src="img/delivery.png" alt="delivery">
+                                                </div>
+                                                <p>Commande délivrée</p>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        elseif ($ligne[0] =="annule") {
+                            ?>
+                            <div class="container">
+                                <div class="row">
+                                <div class="content">
+                                    <div class="content2 d-flex justify-content-center">
+                                        <div class="content2-header1">
+                                            <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                        </div>
+                                        <div class="content2-header1">
+                                            <p>Expected Date : <span>7-NOV-2015</span></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="content3">
+                                        <div class="shipment d-flex justify-content-center">
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/confirm.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Confirmé</p>
+                                            </div>
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/process.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>en cours de préparation</p>
+                                            </div>
+                                            <div class="dispatch">
+                                                <div class="imgcircle">
+                                                    <img src="img/dispatch.png" alt="dispatch product">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Commande expédiée</p>
+                                            </div>
+                                            <div class="delivery">
+                                                <div class="imgcircle">
+                                                    <img src="img/delivery.png" alt="delivery">
+                                                </div>
+                                                <p>Commande délivrée</p>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        elseif ($ligne[0] =="expedie") {
+                            ?>
+                            <div class="container">
+                                <div class="row">
+                                <div class="content">
+                                    <div class="content2 d-flex justify-content-center">
+                                        <div class="content2-header1">
+                                            <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                        </div>
+                                        <div class="content2-header1">
+                                            <p>Expected Date : <span>7-NOV-2015</span></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="content3">
+                                        <div class="shipment d-flex justify-content-center">
+                                            <div class="confirm">
+                                                <div class="imgcircle">
+                                                    <img src="img/confirm.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Confirmé</p>
+                                            </div>
+                                            <div class="confirmfinal">
+                                                <div class="imgcircle">
+                                                    <img src="img/process.png">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>en cours de préparation</p>
+                                            </div>
+                                            <div class="confirmfinal">
+                                                <div class="imgcircle">
+                                                    <img src="img/dispatch.png" alt="dispatch product">
+                                                </div>
+                                                <span class="line"></span>
+                                                <p>Commande expédiée</p>
+                                            </div>
+                                            <div class="delivery">
+                                                <div class="imgcircle">
+                                                    <img src="img/delivery.png" alt="delivery">
+                                                </div>
+                                                <p>Commande délivrée</p>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    if($existe == 0){
+                        ?>
+                        <script>
+                        swal("Erreur ID de Commande Invalide !", {
+                            icon: "error",
+                            timer: 3000
+                        })
+                        .then((willDelete) => {
+                                window.location.href = "commandes.php";
+                        
+                        });
+                        </script><?php
+                    }
                 }
             }
-            if($existe == 0){
-                echo "flo";
-                ?>
-                <script>
-                swal("Erreur ID de Commande Invalide !", {
-                    icon: "error",
-                    timer: 3000
-                })
-                .then((willDelete) => {
-                        window.location.href = "commandes.php";
-                
-                });
-                </script><?php
+            else{
+                $requete = $bdd->prepare('SELECT DISTINCT(statut_commande) FROM commande INNER JOIN panier AS p ON commande.id_panier = p.id_panier WHERE id_commande=:id_commande AND id_user=:id_user');
+                $requete->execute(array(
+                    'id_commande' => $_GET['order'],
+                    'id_user' => $_SESSION['id']
+                ));
+                $existe=0;
+                while ($ligne=$requete->fetch()){
+                    $existe=1;
+                    if($ligne[0] =="valide"){
+                        ?>
+                        <div class="container">
+                            <div class="row">
+                            <div class="content">
+                                <div class="content2 d-flex justify-content-center">
+                                    <div class="content2-header1">
+                                        <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                    </div>
+                                    <div class="content2-header1">
+                                        <p>Expected Date : <span>7-NOV-2015</span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="content3">
+                                    <div class="shipment d-flex justify-content-center">
+                                        <div class="confirm">
+                                            <div class="imgcircle">
+                                                <img src="img/confirm.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Confirmé</p>
+                                        </div>
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/process.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>en cours de préparation</p>
+                                        </div>
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/dispatch.png" alt="dispatch product">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Commande expédiée</p>
+                                        </div>
+                                        <div class="delivery">
+                                            <div class="imgcircle">
+                                                <img src="img/delivery.png" alt="delivery">
+                                            </div>
+                                            <p>Commande délivrée</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    elseif ($ligne[0] =="en cours validation") {
+                        ?>
+                        <div class="container">
+                            <div class="row">
+                            <div class="content">
+                                <div class="content2 d-flex justify-content-center">
+                                    <div class="content2-header1">
+                                        <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                    </div>
+                                    <div class="content2-header1">
+                                        <p>Expected Date : <span>7-NOV-2015</span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="content3">
+                                    <div class="shipment d-flex justify-content-center">
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/confirm.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Confirmé</p>
+                                        </div>
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/process.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>en cours de préparation</p>
+                                        </div>
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/dispatch.png" alt="dispatch product">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Commande expédiée</p>
+                                        </div>
+                                        <div class="delivery">
+                                            <div class="imgcircle">
+                                                <img src="img/delivery.png" alt="delivery">
+                                            </div>
+                                            <p>Commande délivrée</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    elseif ($ligne[0] =="en cours preparation") {
+                        ?>
+                        <div class="container">
+                            <div class="row">
+                            <div class="content">
+                                <div class="content2 d-flex justify-content-center">
+                                    <div class="content2-header1">
+                                        <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                    </div>
+                                    <div class="content2-header1">
+                                        <p>Expected Date : <span>7-NOV-2015</span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="content3">
+                                    <div class="shipment d-flex justify-content-center">
+                                        <div class="confirm">
+                                            <div class="imgcircle">
+                                                <img src="img/confirm.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Confirmé</p>
+                                        </div>
+                                        <div class="confirmfinal">
+                                            <div class="imgcircle">
+                                                <img src="img/process.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>en cours de préparation</p>
+                                        </div>
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/dispatch.png" alt="dispatch product">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Commande expédiée</p>
+                                        </div>
+                                        <div class="delivery">
+                                            <div class="imgcircle">
+                                                <img src="img/delivery.png" alt="delivery">
+                                            </div>
+                                            <p>Commande délivrée</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    elseif ($ligne[0] =="annule") {
+                        ?>
+                        <div class="container">
+                            <div class="row">
+                            <div class="content">
+                                <div class="content2 d-flex justify-content-center">
+                                    <div class="content2-header1">
+                                        <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                    </div>
+                                    <div class="content2-header1">
+                                        <p>Expected Date : <span>7-NOV-2015</span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="content3">
+                                    <div class="shipment d-flex justify-content-center">
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/confirm.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Confirmé</p>
+                                        </div>
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/process.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>en cours de préparation</p>
+                                        </div>
+                                        <div class="dispatch">
+                                            <div class="imgcircle">
+                                                <img src="img/dispatch.png" alt="dispatch product">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Commande expédiée</p>
+                                        </div>
+                                        <div class="delivery">
+                                            <div class="imgcircle">
+                                                <img src="img/delivery.png" alt="delivery">
+                                            </div>
+                                            <p>Commande délivrée</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    elseif ($ligne[0] =="expedie") {
+                        ?>
+                        <div class="container">
+                            <div class="row">
+                            <div class="content">
+                                <div class="content2 d-flex justify-content-center">
+                                    <div class="content2-header1">
+                                        <p>Status : <span><?php echo $ligne[0];?></span></p>
+                                    </div>
+                                    <div class="content2-header1">
+                                        <p>Expected Date : <span>7-NOV-2015</span></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="content3">
+                                    <div class="shipment d-flex justify-content-center">
+                                        <div class="confirm">
+                                            <div class="imgcircle">
+                                                <img src="img/confirm.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Confirmé</p>
+                                        </div>
+                                        <div class="confirmfinal">
+                                            <div class="imgcircle">
+                                                <img src="img/process.png">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>en cours de préparation</p>
+                                        </div>
+                                        <div class="confirmfinal">
+                                            <div class="imgcircle">
+                                                <img src="img/dispatch.png" alt="dispatch product">
+                                            </div>
+                                            <span class="line"></span>
+                                            <p>Commande expédiée</p>
+                                        </div>
+                                        <div class="delivery">
+                                            <div class="imgcircle">
+                                                <img src="img/delivery.png" alt="delivery">
+                                            </div>
+                                            <p>Commande délivrée</p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                if($existe == 0){
+                    ?>
+                    <script>
+                    swal("Erreur ID de Commande Invalide !", {
+                        icon: "error",
+                        timer: 3000
+                    })
+                    .then((willDelete) => {
+                            window.location.href = "commandes.php";
+                    
+                    });
+                    </script><?php
+                }
             }
+            
         ?>
         
     </section>

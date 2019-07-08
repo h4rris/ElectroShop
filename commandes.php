@@ -1,10 +1,6 @@
 <?php
     session_start();
-    require("parameters.php");
-	if(!isset($_SESSION['username'])){
-		header('Location: index.php');
-	}
-	
+    require("parameters.php");	
 ?><!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -27,20 +23,45 @@
     <!--
             CSS
             ============================================= -->
-    <link rel="stylesheet" href="css/linearicons.css">
-    <link rel="stylesheet" href="css/owl.carousel.css">
+            <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/themify-icons.css">
+    <link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/nice-select.css">
     <link rel="stylesheet" href="css/nouislider.min.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="css/select2.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link href="css/buttons.dataTables.min.css" rel="stylesheet" media="all">
+    <link href="css/theme.css" rel="stylesheet" media="all">
+    <script src="js/sweetalert.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script> 
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="js/dataTables.buttons.min.js"></script>
+<script src="js/buttons.flash.min.js"></script>
+<script src="js/buttons.html5.min.js"></script>
+<script src="js/buttons.print.min.js"></script>
     
 </head>
 
 <body>
-
+<script>
+        $(document).ready( function () {
+            $('#table_id').DataTable();
+        } );
+    </script>
+    <?php
+    try{
+        $bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
+    }
+    catch (Exception $e){
+        die('Erreur : ' . $e->getMessage());
+    }
+    ?>
     <!-- Start Header Area -->
 	<div class="header_area sticky-header">
 		<div class="main_menu">
@@ -71,22 +92,13 @@
 							</li>
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
+								 aria-expanded="false">COMMANDE</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.php">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.php">Blog Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="commandes.php">Suivre ma commande</a></li>
+									
 								</ul>
 							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="tracking.php">Tracking</a></li>
-									<li class="nav-item"><a class="nav-link" href="elements.php">Elements</a></li>
-								</ul>
-							</li>
-                            <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+							
                             <?php 
 							if(isset($_SESSION['statut'])){
 								
@@ -144,27 +156,101 @@
             </div>
         </div>
     </section>
-    <!-- End Banner Area -->
-
-    <!--================Tracking Box Area =================-->
-    <section class="tracking_box_area section_gap">
-        <div class="container">
-            <div class="tracking_box_inner">
-                <p>Pour suivre votre commande, entrez votre numéro de commande dans la case ci-dessous et appuyez sur le bouton "Suivre". 
-                    Cela vous a été remis sur votre reçu et dans l'e-mail de confirmation que vous auriez dû recevoir</p>
-                <form class="row tracking_form" action="tracking.php" method="post" novalidate="novalidate">
-                    <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="order" name="order" placeholder="ID Commande" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Commande'">
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <button type="submit" value="submit" class="primary-btn">Suivre ma commande</button>
-                    </div>
-                </form>
+    <!-- End Banner Area -->    
+    <?php
+    if(!isset($_SESSION['username'])){
+        ?>
+            <!--================Tracking Box Area =================-->
+        <section class="tracking_box_area section_gap">
+            <div class="container">
+                <div class="tracking_box_inner">
+                    <p>Pour suivre votre commande, entrez votre numéro de commande dans la case ci-dessous et appuyez sur le bouton "Suivre". 
+                        Cela vous a été remis sur votre reçu et dans l'e-mail de confirmation que vous auriez dû recevoir</p>
+                    <form class="row tracking_form" action="tracking.php" method="get" novalidate="novalidate">
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="order" name="order" placeholder="ID Commande" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Commande'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="mail" name="mail" placeholder="Adresse email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse email'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="primary-btn">Suivre ma commande</button>
+                        </div>
+                        
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
-    <!--================End Tracking Box Area =================-->
+        </section>
+        <!--================End Tracking Box Area =================-->
+    <?php 
+    }
+    else{
+        ?>
+        <section class="tracking_box_area section_gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                    <h3 class="title-5 m-b-35 text-center">Liste des comptes utilisateur : </h3>
+                    <style>
+                        .dataTables_filter input { background-color : #ddd; };
+                    </style>
+                    
+                    <table id="table_id" class="table table-data2 display">
+                        <thead>
+                            <tr>
+                                <th>ID Commande</th>
+                                <th>Statut</th>
+                                <th>Total &euro; Commande</th>
+                                <th>Suivre ma commande</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $requete = $bdd->prepare('SELECT DISTINCT(id_commande),statut_commande,total_commande FROM commande INNER JOIN panier AS p ON commande.id_panier=p.id_panier INNER JOIN users AS u ON p.id_user=u.id_user WHERE u.id_user=:id_user;');
+                                $requete->execute(array(
+                                    'id_user' => $_SESSION['id']
+                                ));
+                                while ($ligne=$requete->fetch()){
+                                    echo "<tr>";
+                                    echo "<td>".$ligne[0]."</td>";
+                                    
+                                        if($ligne[1] == "annule"){
+                                            echo "<td><span class='status--denied'>".$ligne[1]."</span></td>";
+                                            
+                                        }
+                                        else{
+                                            echo "<td><span class='status--process'>".$ligne[1]."</span></td>";
+                                        }
+                                        echo "<td>".$ligne[2]."</td><td>";
+                                    ?>
+                                    <div class="table-data-feature">
+                                    <?php 
+                                            // il peux promouvoir retrograder desactiver et supprimer.
+                                            
+                                            echo "<button onclick=move('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Supprimer le compte'>
+                                                <i class='zmdi zmdi-gps-dot'></i>
+                                            </button>";
+                                      
+                                    ?>
+                                    </div><?php
+                                    echo "</td></tr>";
+                                }
+                                $requete->CloseCursor();?>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
 
+        </section>
+    <?php
+    }
+    ?>
+    <script>
+        function move(id_commande){
+            window.location.href= "tracking.php?order="+id_commande;
+        }
+    </script>
     <!-- start footer Area -->
     <footer class="footer-area section_gap">
         <div class="container">
@@ -251,8 +337,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 
 
-    <script src="js/vendor/jquery-2.2.4.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
 	<script src="js/vendor/bootstrap.min.js"></script>
 	<script src="js/jquery.ajaxchimp.min.js"></script>

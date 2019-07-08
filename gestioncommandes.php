@@ -95,34 +95,28 @@
 							</li>
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
+								 aria-expanded="false">COMMANDE</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.php">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.php">Blog Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="commandes.php">Suivre ma commande</a></li>
+									
 								</ul>
 							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="tracking.php">Tracking</a></li>
-									<li class="nav-item"><a class="nav-link" href="elements.php">Elements</a></li>
-								</ul>
-							</li>
-                            <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+							
                             <?php 
-							if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
+							if(isset($_SESSION['statut'])){
+								
+								if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
                                 <li class="nav-item submenu dropdown">
                                     <a href="#" class="nav-link dropdown-toggle">Administration</a>
                                     <ul class="dropdown-menu">	
                                         <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
                                     </ul>
                                 </li><?php
-                            }
-                            ?> 
+							}
+							}	
+                            ?>
                             <li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false"></span></a>
@@ -130,7 +124,7 @@
 									<?php 
 										if(isset($_SESSION['username'])){
 											?>
-											<li class="nav-item"><a class="nav-link" href="elements.php">Mes commandes</a></li>
+											<li class="nav-item"><a class="nav-link" href="commandes.php">Mes commandes</a></li>
 											<li class="nav-item"><a class="nav-link" href="moncompte.php">Mon compte</a></li>
 											<li class="nav-item"><a class="nav-link" href="deconnexion.php">Se déconnecter</a></li>
 											<?php
@@ -146,15 +140,12 @@
                             
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-                            
 							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
                         </ul>
 					</div>
 				</div>
 			</nav>
         </div>
-        
-		
 	</div>
 	<!-- End Header Area -->
      
@@ -182,7 +173,7 @@
                     </thead>
                     <tbody>
                         <?php
-                            $requete = $bdd->prepare('SELECT id_commande,u.username,statut_commande FROM commande INNER JOIN panier as p ON commande.id_panier = p.id_panier INNER JOIN article AS a ON p.id_article = a.id_article INNER JOIN users u ON p.id_user=u.id_user;');
+                            $requete = $bdd->prepare('SELECT DISTINCT(id_commande),u.username,statut_commande FROM commande INNER JOIN panier as p ON commande.id_panier = p.id_panier INNER JOIN article AS a ON p.id_article = a.id_article INNER JOIN users u ON p.id_user=u.id_user;');
                             $requete->execute();
                             while ($ligne=$requete->fetch()){
                                 echo "<tr>";
