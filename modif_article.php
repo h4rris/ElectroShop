@@ -34,6 +34,16 @@ require("parameters.php");
                 'id_article' => $id_article
             ));
             $requete2->closeCursor();
+            $requete2 = $bdd->prepare('DELETE FROM panier WHERE id_article=:id_article');
+            $requete2->execute(array(
+                'id_article' => $id_article
+            ));
+            $requete2->closeCursor();
+            $requete2 = $bdd->prepare('DELETE FROM commentaires WHERE id_article=:id_article');
+            $requete2->execute(array(
+                'id_article' => $id_article
+            ));
+            $requete2->closeCursor();
             $requete = $bdd->prepare('DELETE FROM article WHERE id_article=:id_article');
             $requete->execute(array(
                 'id_article' => $id_article
