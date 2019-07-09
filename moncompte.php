@@ -93,6 +93,7 @@
                                     <ul class="dropdown-menu">	
                                         <li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
                                         <li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion des commandes</a></li>
                                     </ul>
                                 </li><?php
                             }

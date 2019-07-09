@@ -157,7 +157,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                <h3 class="title-5 m-b-35 text-center">Liste des comptes utilisateur : </h3>
+                <h3 class="title-5 m-b-35 text-center">Liste des commandes : </h3>
                 <style>
                     .dataTables_filter input { background-color : #ddd; };
                 </style>
@@ -165,6 +165,7 @@
                 <table id="table_id" class="table table-data2 display">
                     <thead>
                         <tr>
+                            <th>ID Commande</th>
                             <th>Nom d'utilisateur</th>
                             <th>Statut</th>
                             <th>Actions</th>
@@ -172,84 +173,64 @@
                     </thead>
                     <tbody>
                         <?php
-                            $requete = $bdd->prepare('SELECT users.id_user,username,users.statut,v.statut FROM users INNER JOIN validation as v ON users.id_user = v.id_user;');
+                            $requete = $bdd->prepare('SELECT DISTINCT(id_commande),u.username,statut_commande FROM commande INNER JOIN panier as p ON commande.id_panier = p.id_panier INNER JOIN article AS a ON p.id_article = a.id_article INNER JOIN users u ON p.id_user=u.id_user;');
                             $requete->execute();
                             while ($ligne=$requete->fetch()){
                                 echo "<tr>";
+                                echo "<td>".$ligne[0]."</td>";
                                 echo "<td>".$ligne[1]."</td>";
-                                
-                                if($ligne[3] != "1"){
-                                     echo "<td><span class='status--denied'>Email non validé</span></td><td>";
+                                if($ligne[2] == "en cours validation"){
+                                    echo "<td><span class='status--warning'>".$ligne[2]."</td><td>";
+                                    ?>
+                                    <div class="table-data-feature">
+                                    <?php 
+                                    echo "<button onclick=valid('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Valider la commande'>
+                                    <i class='zmdi zmdi-check'></i>
+                                    </button>";
+                                    echo "<button onclick=annul('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Annuler la commande'>
+                                    <i class='zmdi zmdi-close'></i>
+                                    </button>";
                                 }
-                                else{
-                                    if($ligne[2] == 1){
-                                        echo "<td><span class='status--process'>Compte activé</span></td><td>";
-                                        
-                                    }
-                                    elseif ($ligne[2] == 2) {
-                                        echo "<td><span class='status--process'>Compte activé : Administrateur</span></td><td>";
-                                        
-                                    }
-                                    elseif ($ligne[2] == 3) {
-                                        echo "<td><span class='status--process'>Compte activé :  Super-Administrateur</span></td><td>";
-                                    }
-                                    else{
-                                        echo "<td><span class='status--denied'>Compte désactivé</span></td><td>";
-                                    }
+                                elseif ($ligne[2] == "valide") {
+                                    echo "<td><span class='status--off'>".$ligne[2]."</td><td>";
+                                        ?>
+                                    <div class="table-data-feature">
+                                    <?php 
+                                    echo "<button onclick=prepa('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Préparer la commande'>
+                                    <i class='zmdi zmdi-inbox'></i>
+                                    </button>";
+                                }
+                                elseif ($ligne[2] == "en cours preparation") {
+                                    echo "<td><span class='status--prepa'>".$ligne[2]."</td><td>";
+                                    ?>
+                                    <div class="table-data-feature">
+                                    <?php 
+                                    echo "<button onclick=expedier('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Expédier la commande'>
+                                    <i class='zmdi zmdi-airplane'></i>
+                                    </button>";
                                     
                                 }
-                                ?>
-                                <div class="table-data-feature">
-                                <?php 
-                                if($_SESSION['statut'] == "2"){
-                                    if($_SESSION['statut'] > $ligne[2]){
-                                        // il peux promouvoir et desactiver et supprimer
-                                        if($ligne[2] == 0){
-                                            echo "<button onclick=activ('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Activer le compte' >
-                                            <i class='zmdi zmdi-eye'></i>
-                                            </button>";
-                                        }
-                                        else{
-                                            echo "<button onclick=desact('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Désactiver le compte' >
-                                            <i class='zmdi zmdi-eye-off'></i>
-                                            </button>";
-                                        }
-                                            echo "<button onclick=suppr('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Supprimer le compte'>
-                                            <i class='zmdi zmdi-delete'></i>
-                                        </button>";
-                                        if($ligne[2] != 0){
-                                        echo "<button onclick=prom('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Promouvoir le compte'>
-                                            <i class='zmdi zmdi-thumb-up'></i>
-                                        </button>";
-                                        } 
-                                    }
+                                elseif ($ligne[2] == "expedie") {
+                                    echo "<td><span class='status--process'>".$ligne[2]."</td><td>";
+                                    ?>
+                                    <div class="table-data-feature">
+                                    <?php 
+                                    echo "<button onclick=suppr('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Supprimer la commande'>
+                                    <i class='zmdi zmdi-delete'></i>
+                                    </button>";
                                 }
-                                elseif ($_SESSION['statut'] == "3") {
-                                    if($_SESSION['statut'] > $ligne[2]){
-                                        // il peux promouvoir retrograder desactiver et supprimer.
-                                        if($ligne[2] == 0){
-                                            echo "<button onclick=activ('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Activer le compte' >
-                                            <i class='zmdi zmdi-eye'></i>
-                                            </button>";
-                                        }
-                                        else{
-                                            echo "<button onclick=desact('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Désactiver le compte' >
-                                            <i class='zmdi zmdi-eye-off'></i>
-                                            </button>";
-                                        }
-                                        echo "<button onclick=suppr('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Supprimer le compte'>
-                                            <i class='zmdi zmdi-delete'></i>
-                                        </button>";
-                                        echo "<button onclick=prom('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Promouvoir le compte'>
-                                            <i class='zmdi zmdi-thumb-up'></i>
-                                        </button>";
-                                        if($ligne[2] != 0){
-                                        echo "<button onclick=retro('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Dégrader le compte'>
-                                            <i class='zmdi zmdi-thumb-down'></i>
-                                        </button>";
-                                        }
-                                    }
+                                elseif ($ligne[2] == "annule") {
+                                    echo "<td><span class='status--denied'>".$ligne[2]."</td><td>";
+                                    ?>
+                                    <div class="table-data-feature">
+                                    <?php 
+                                    echo "<button onclick=suppr('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Supprimer la commande'>
+                                    <i class='zmdi zmdi-delete'></i>
+                                    </button>";
                                 }
+                                  
+                                
+                                
                                 ?>
                                 </div><?php
                                 echo "</td></tr>";
@@ -262,6 +243,185 @@
         </div>
     </section>
     <script>
+        function annul(id_commande){
+            swal({
+            title: "Etes-vous sur de vouloir annuler cette commande ?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_commande);
+                    $.ajax({
+                        url : "modif_commande.php",
+                        data : {
+                            typeChgmnt: 'annuler',
+                            id_commande: id_commande
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncommandes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });    
+        }
+        function valid(id_commande){
+            swal({
+            title: "Etes-vous sur de vouloir valider cette commande ?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "success",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_commande);
+                    $.ajax({
+                        url : "modif_commande.php",
+                        data : {
+                            typeChgmnt: 'valider',
+                            id_commande: id_commande
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncommandes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });
+            
+        }
+        function prepa(id_commande){
+            swal({
+            title: "Etes-vous sur de vouloir préparer cette commande ?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "info",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_commande);
+                    $.ajax({
+                        url : "modif_commande.php",
+                        data : {
+                            typeChgmnt: 'preparer',
+                            id_commande: id_commande
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncommandes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });
+            
+        }
+        function expedier(id_commande){
+            swal({
+            title: "Etes-vous sur de vouloir expédier cette commande ?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "info",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_commande);
+                    $.ajax({
+                        url : "modif_commande.php",
+                        data : {
+                            typeChgmnt: 'expedier',
+                            id_commande: id_commande
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncommandes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            });
+            
+        }
+        function suppr(id_commande,id_panier){
+            swal({
+            title: "Etes-vous sur de vouloir supprimer cet commande?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_commande);
+                    $.ajax({
+                        url : "modif_commande.php",
+                        data : {
+                            typeChgmnt: 'suppression',
+                            id_commande: id_commande,
+                            id_panier :id_panier
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "gestioncommandes.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            }); 
+        }
         $("#table_id").DataTable( {
             "language": {
                 "lengthMenu": "Affichage _MENU_ ligne par page ",
@@ -278,184 +438,7 @@
             [10, 25, 50, 100, "Tout"]
             ]
         });
-        function desact(id_user){
-            swal({
-            title: "Etes-vous sur de vouloir désactiver cet utilisateur?",
-            text: "Si oui, finaliser l'action, si non annuler",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    console.log(id_user);
-                    $.ajax({
-                        url : "modif_user.php",
-                        data : {
-                            typeChgmnt: 'desactiver',
-                            id_user: id_user
-                        },
-                        cache : false,
-                        success : function(response){
-                            swal("Action traitée avec succès!", {
-                                icon: "success",
-                                timer: 3000
-                            })
-                            .then((willDelete) => {
-                                    window.location.href = "gestioncomptes.php";
-                            
-                            });
-                        },
-                        error : function(request, error){
-                            console.log(error);
-                        }
-                    });
-                } 
-            });    
-        }
-        function activ(id_user){
-            swal({
-            title: "Etes-vous sur de vouloir Activer cet utilisateur?",
-            text: "Si oui, finaliser l'action, si non annuler",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    console.log(id_user);
-                    $.ajax({
-                        url : "modif_user.php",
-                        data : {
-                            typeChgmnt: 'activer',
-                            id_user: id_user
-                        },
-                        cache : false,
-                        success : function(response){
-                            swal("Action traitée avec succès!", {
-                                icon: "success",
-                                timer: 3000
-                            })
-                            .then((willDelete) => {
-                                    window.location.href = "gestioncomptes.php";
-                            
-                            });
-                        },
-                        error : function(request, error){
-                            console.log(error);
-                        }
-                    });
-                } 
-            });
-            
-        }
-        function prom(id_user){
-            swal({
-            title: "Etes-vous sur de vouloir promouvoir cet utilisateur?",
-            text: "Si oui, finaliser l'action, si non annuler",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    console.log(id_user);
-                    $.ajax({
-                        url : "modif_user.php",
-                        data : {
-                            typeChgmnt: 'promouvoir',
-                            id_user: id_user
-                        },
-                        cache : false,
-                        success : function(response){
-                            swal("Action traitée avec succès!", {
-                                icon: "success",
-                                timer: 3000
-                            })
-                            .then((willDelete) => {
-                                    window.location.href = "gestioncomptes.php";
-                            
-                            });
-                        },
-                        error : function(request, error){
-                            console.log(error);
-                        }
-                    });
-                } 
-            });
-            
-        }
-        function retro(id_user){
-            swal({
-            title: "Etes-vous sur de vouloir retrograder cet utilisateur?",
-            text: "Si oui, finaliser l'action, si non annuler",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    console.log(id_user);
-                    $.ajax({
-                        url : "modif_user.php",
-                        data : {
-                            typeChgmnt: 'retrograder',
-                            id_user: id_user
-                        },
-                        cache : false,
-                        success : function(response){
-                            swal("Action traitée avec succès!", {
-                                icon: "success",
-                                timer: 3000
-                            })
-                            .then((willDelete) => {
-                                    window.location.href = "gestioncomptes.php";
-                            
-                            });
-                        },
-                        error : function(request, error){
-                            console.log(error);
-                        }
-                    });
-                } 
-            });
-            
-        }
-        function suppr(id_user){
-            swal({
-            title: "Etes-vous sur de vouloir supprimer cet utilisateur?",
-            text: "Si oui, finaliser l'action, si non annuler",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    console.log(id_user);
-                    $.ajax({
-                        url : "modif_user.php",
-                        data : {
-                            typeChgmnt: 'suppression',
-                            id_user: id_user
-                        },
-                        cache : false,
-                        success : function(response){
-                            swal("Action traitée avec succès!", {
-                                icon: "success",
-                                timer: 3000
-                            })
-                            .then((willDelete) => {
-                                    window.location.href = "gestioncomptes.php";
-                            
-                            });
-                        },
-                        error : function(request, error){
-                            console.log(error);
-                        }
-                    });
-                } 
-            }); 
-        }
+        
     </script>
     <!--================Blog Area =================-->
 

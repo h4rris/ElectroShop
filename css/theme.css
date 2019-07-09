@@ -4658,6 +4658,15 @@ section {
 .status--denied {
     color: #fa4251;
 }
+.status--warning {
+    color: #FFCA33;
+}
+.status--off {
+    color: #1DE3E0;
+}
+.status--prepa {
+    color: #1D20E3;
+}
 
 .table-data3 thead {
     background: #333;
