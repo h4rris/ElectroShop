@@ -12,11 +12,13 @@ $(document).ready(function(){
     if ($(".badge").length) {
       var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
 
-      console.log('main');
       $(".badge").html(existingEntries.length);
-
     }
   });
+
+  // $('.cart').hover(function(){
+  //   console.log('oui');
+  // });
 
 	$(".fullscreen").css("height", window_height)
     $(".fitscreen").css("height", fitscreen);

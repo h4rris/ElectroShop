@@ -5,7 +5,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
+	<link rel="shortcut icon" href="img/logo_flavicon.ico">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -37,6 +37,25 @@
 
 	<?php
 		include 'navbar.html';
+		
+		try
+		{
+			$id_article = $_GET['id_article'];
+			$bdd = new PDO('mysql:host=localhost;dbname=ElectroShop;charset=utf8', 'root', '');
+
+			//Récupération des articles
+			$reponse = $bdd->query('SELECT * FROM categorie 
+										JOIN article ON categorie.id_categorie = article.id_categorie 
+    									JOIN prix ON article.id_article = prix.id_article
+    									WHERE article.id_article = '. $id_article);
+			$donnees_articles = $reponse->fetchAll();
+		}
+		catch (Exception $e)
+		{
+		        die('Erreur : ' . $e->getMessage());
+		}
+
+		
 	?>
 
 	<!-- Start Banner Area -->
@@ -63,39 +82,36 @@
 				<div class="col-lg-6">
 					<div class="s_Product_carousel">
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/<?php echo reset($donnees_articles)['lien_image']; ?>" alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/<?php echo reset($donnees_articles)['lien_image']; ?>"alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/<?php echo reset($donnees_articles)['lien_image']; ?>" alt="">
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-lg-5 offset-lg-1">
 					<div class="s_product_text">
-						<h3>Faded SkyBlu Denim Jeans</h3>
-						<h2>$149.99</h2>
+						<h3 id="nom_article"><?php echo reset($donnees_articles)['nom_article']; ?></h3>
+						<h2 id="prix"><?php echo reset($donnees_articles)['prix']."€"; ?></h2>
 						<ul class="list">
-							<li><a class="active" href="#"><span>Category</span> : Household</a></li>
-							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
+							<li><a class="active"><span>Catégorie</span> : <?php echo reset($donnees_articles)['texte_categorie']; ?></a></li>
+							<li><a href="#"><span>Disponibilité</span> : <?php echo reset($donnees_articles)['stock_article']; ?> articles en stock </a></li>
 						</ul>
 						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
 							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
 							during the winter.</p>
 						<div class="product_count">
 							<label for="qty">Quantity:</label>
-							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							 class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-							 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+							<input id="quantity" type="text" name="qty" id="sst" max="<?php echo reset($donnees_articles)['stock_article']; ?>" value="1" title="Quantity:" class="input-text qty">
+							<button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+							<button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
 						</div>
 						<div class="card_area d-flex align-items-center">
-							<a class="primary-btn" href="#">Add to Cart</a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+							<a id="add_to_cart" data-id_article="<?php echo reset($donnees_articles)['id_article']; ?>" class="primary-btn" style="color: white">Ajouter dans le panier</a>
 						</div>
 					</div>
 				</div>
@@ -660,6 +676,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="js/gmaps.min.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/single-product.js"></script>
+    <script src="js/sweetalert.min.js"></script>
 
 </body>
 

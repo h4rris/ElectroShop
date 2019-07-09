@@ -2,7 +2,7 @@
 	session_start();
 	require("parameters.php");
 	if(isset($_SESSION['username'])){
-		header('Location: /electroshop/index.php');
+		header('Location: /Efrei/ElectroShop/index.php');
 	}
 ?>
 <!DOCTYPE html>

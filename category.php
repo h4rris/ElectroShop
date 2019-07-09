@@ -82,7 +82,8 @@
 							    $group_by_articles[$value['nom_categorie']][] = $value;
 							}
 								// echo "<pre>";
-
+							// <li class="main-nav-list"><a data-toggle="collapse" href="" aria-expanded="false" data-group="all"><span class="lnr lnr-arrow-right"></span>Tout Afficher</a>
+							// </li>
 							foreach ($group_by_articles as $key => $value) {
 								// echo count($value);
 							?>
@@ -145,19 +146,11 @@
 												<div class="prd-bottom">
 													<a  class="social-info add_to_cart">
 														<span class="ti-bag"></span>
-														<p class="hover-text">add to bag</p>
+														<p class="hover-text">Ajouter</p>
 													</a>
-													<a href="" class="social-info">
-														<span class="lnr lnr-heart"></span>
-														<p class="hover-text">Wishlist</p>
-													</a>
-													<a href="" class="social-info">
-														<span class="lnr lnr-sync"></span>
-														<p class="hover-text">compare</p>
-													</a>
-													<a href="" class="social-info">
+													<a class="social-info show_more">
 														<span class="lnr lnr-move"></span>
-														<p class="hover-text">view more</p>
+														<p class="hover-text">Plus d'info</p>
 													</a>
 												</div>
 											</div>
@@ -490,6 +483,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/jquery.nice-select.min.js"></script>
 	<script src="js/jquery.sticky.js"></script>
 	<script src="js/nouislider.min.js"></script>
+    <script src="js/sweetalert.min.js"></script>
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<!--gmaps Js-->

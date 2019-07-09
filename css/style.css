@@ -4,3 +4,10 @@
 	cursor: pointer;
 	padding: 0;
 }
+
+#purchase_summary td {
+    max-width: 42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

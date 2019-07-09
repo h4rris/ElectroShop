@@ -5,7 +5,7 @@
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="img/fav.png">
+    <link rel="shortcut icon" href="img/logo_flavicon.ico">
     <!-- Author Meta -->
     <meta name="author" content="CodePixar">
     <!-- Meta Description -->
@@ -43,10 +43,10 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Checkout</h1>
+                    <h1>Paiement</h1>
                     <nav class="d-flex align-items-center">
-                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="single-product.html">Checkout</a>
+                        <a href="index.html">Accueil<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="single-product.html">Paiement</a>
                     </nav>
                 </div>
             </div>
@@ -160,27 +160,19 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="order_box">
-                            <h2>Your Order</h2>
-                            <ul class="list">
-                                <li><a href="#">Product <span>Total</span></a></li>
-                                <li><a href="#">Fresh Blackberry <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                                <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                                <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                            </ul>
+                            <h2>Votre commande</h2>
+                            <table id="purchase_summary" style="width:100%">
+                                <tr>
+                                    <th>Article</th>
+                                    <th align="center" style="text-align: center">Quantité</th>
+                                    <th align="right" style="text-align: right">Total</th>
+                                </tr>
+                            </table>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-                                <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                                <li><a href="#">Total <span>$2210.00</span></a></li>
+                                <li><a href="#">Sous-total <span id="sub_total"></span></a></li>
+                                <li><a href="#">Livraison <span id="livraion">5€</span></a></li>
+                                <li><a href="#">Total <span id="total"></span></a></li>
                             </ul>
-                            <div class="payment_item">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option5" name="selector">
-                                    <label for="f-option5">Check payments</label>
-                                    <div class="check"></div>
-                                </div>
-                                <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
-                                    Store Postcode.</p>
-                            </div>
                             <div class="payment_item active">
                                 <div class="radion_btn">
                                     <input type="radio" id="f-option6" name="selector">
@@ -188,7 +180,7 @@
                                     <img src="img/product/card.jpg" alt="">
                                     <div class="check"></div>
                                 </div>
-                                <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
+                                <p>Payer via PayPal; you can pay with your credit card if you don’t have a PayPal
                                     account.</p>
                             </div>
                             <div class="creat_account">
@@ -303,6 +295,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="js/gmaps.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/checkout.js"></script>
 </body>
 
 </html>

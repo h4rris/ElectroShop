@@ -177,10 +177,6 @@
 								<div class="banner-content">
 									<h1>Le nouveau <br>MacBook Pro</h1>
 									<p>Avec le MacBook Pro, l’ordinateur portable atteint des sommets inédits en matière de performances et de portabilité. Quelles que soient les contrées où vous mènera votre imagination, vous parviendrez plus vite que jamais à vos objectifs grâce, entre autres, à des processeurs et à une mémoire hautes performances, à des graphismes avancés et à un système de stockage d’une rapidité fulgurante.</p>
-									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href="cart.php?id=1"><span class="lnr lnr-cross" role="button"></span></a>
-										<span class="add-text text-uppercase">Ajouter au panier</span>
-									</div>
 								</div>
 							</div>
 							<div class="col-lg-7">

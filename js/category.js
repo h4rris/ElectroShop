@@ -7,15 +7,17 @@ $(document).ready(function(){
 	    
 	    //Verifier si l'utilisateur possede deja un panier
 	    if (existingEntries === null) {
-	    	console.log('if');
 	    	existingEntries = [];
 	    	var array = {"id_article" : id_article, "quantity" : 1, "image" : image, "text" : text_article, "prix" : prix};
     		existingEntries.push(array);
 	    	localStorage.setItem("cart_items", JSON.stringify(existingEntries)); // Ajouter le panier dasn localStorage
+	    	
+	    	swal({
+				title: "Article ajouté dans le panier !",
+				icon: "success", //error, warning, success, info,
+			});
 	    }
 	    else {
-	    	console.log('already exists');
-
 	    	//Verifier si l'article est deja dans le panier
 	    	var id_article_in_cart = -1;
 
@@ -24,23 +26,44 @@ $(document).ready(function(){
 	    			id_article_in_cart = existingEntries.indexOf(element);
 			});
 
-	    	// var id_article_in_cart = existingEntries.indexOf(id_article);
+	    	// si article existe dans le panier
 	    	if (id_article_in_cart >= 0 ) {
-	    		if (confirm("Cet article est déjà ajouté dans votre panier! Voulez-vous rajouter en plus ?")) {
-	    			console.log(existingEntries[id_article_in_cart]);
-				    existingEntries[id_article_in_cart]['quantity'] += 1;
-			  	}
+	    		swal({
+					title: "Cet article est déjà dans votre panier! Voulez-vous rajouter en plus ?",
+					icon: "warning", //error, warning, success, info,
+					buttons: true
+				})
+				.then((addToCart) => {
+					if (addToCart) {
+						existingEntries[id_article_in_cart]['quantity'] = existingEntries[id_article_in_cart]['quantity'] + +1;
+		    			localStorage.setItem("cart_items", JSON.stringify(existingEntries)); //Ajouter l'article dans le panier puis sauver dans localStorage
+
+						swal({
+							title: "Article ajouté dans le panier ! ?",
+							icon: "success", //error, warning, success, info,
+						});
+					}
+				});
+
+	    	// 	if (confirm("Cet article est déjà ajouté dans votre panier! Voulez-vous rajouter en plus ?")) {
+	    	// 		console.log(existingEntries[id_article_in_cart]);
+				  //   existingEntries[id_article_in_cart]['quantity'] += 1;
+			  	// }
 	    	}
-	    	else {
+	    	else { //sinon on ajoute dans localstorage
 	    		// var array = {"id_article" : id_article, "quantity" : 1};
 	    		var array = {"id_article" : id_article, "quantity" : 1, "image" : image, "text" : text_article, "prix" : prix};
 	    		existingEntries.push(array);
+	    		localStorage.setItem("cart_items", JSON.stringify(existingEntries)); //Ajouter l'article dans le panier puis sauver dans localStorage
+	    		
+	    		swal({
+						title: "Article ajouté dans le panier ! ?",
+						icon: "success", //error, warning, success, info,
+				});
 	    	}
-
-	    	localStorage.setItem("cart_items", JSON.stringify(existingEntries)); //Ajouter l'article dans le panier puis sauver dans localStorage
 	    }
-
 	};
+	
 	if ($("#article_section").length) {
 
 		$(document).on('click', 'a[data-toggle="collapse"]', function() {
@@ -56,9 +79,15 @@ $(document).ready(function(){
 			var text_article = parent_of_all.find('.article').html();
 			var prix = parseInt(parent_of_all.find('.price').children().html().slice(0, -1));
 
-			console.log(prix);
-
 			addEntry(id_to_add, image, text_article, prix);
+		});
+
+		$(document).on('click', '.show_more', function() {
+			var parent_of_all = $(this).closest("div[class^='col-']");
+			var id_to_add = parent_of_all.data('id');
+
+			window.location.href = "single-product.php?id_article=" + id_to_add;
+			// $().redirect('single-product.php', {'id': id_to_add});
 		});
 	}
 

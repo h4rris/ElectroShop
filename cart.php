@@ -41,10 +41,10 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Shopping Cart</h1>
+                    <h1>Panier</h1>
                     <nav class="d-flex align-items-center">
-                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="category.html">Cart</a>
+                        <a href="index.php">Accueil<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="category.php">Panier</a>
                     </nav>
                 </div>
             </div>
@@ -57,7 +57,7 @@
         <div class="container">
             <div class="cart_inner">
                 <div class="table-responsive">
-                    <table class="table" data-url="cart_articles.html">
+                    <table class="table" data-url="cart_articles.php">
                         <thead>
                             <tr>
                                 <th scope="col">Product</th>
@@ -69,7 +69,7 @@
                         <tbody id="cart_body">
                             <tr>
                                 <td>
-
+                                    
                                 </td>
                                 <td>
 
@@ -78,7 +78,7 @@
                                     <h5>Subtotal</h5>
                                 </td>
                                 <td>
-                                    <h5 id="total_amount_cart">$2160.00</h5>
+                                    <h5><div id="total_amount_cart" style="display: inline-block;"></div><div style="display: inline-block;">€</div></h5>
                                 </td>
                             </tr>
                             <tr class="shipping_area">
@@ -89,15 +89,13 @@
 
                                 </td>
                                 <td>
-                                    <h5>Shipping</h5>
+                                    <h5>Livraison</h5>
                                 </td>
                                 <td>
                                     <div class="shipping_box">
                                         <ul class="list">
-                                            <li><a href="#">Flat Rate: $5.00</a></li>
-                                            <li><a href="#">Free Shipping</a></li>
-                                            <li><a href="#">Flat Rate: $10.00</a></li>
-                                            <li class="active"><a href="#">Local Delivery: $2.00</a></li>
+                                            <li class="Shipping_option active" data-delivery-price="5"><a >Standard : 5€</a></li>
+                                            <li class="Shipping_option express" data-delivery-price="10"><a >Express : 10€</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -219,6 +217,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/gmaps.min.js"></script>
 	<script src="js/main.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+
 
 </body>
 
