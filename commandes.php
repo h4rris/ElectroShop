@@ -2,7 +2,7 @@
     session_start();
     require("parameters.php");	
 ?><!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<html lang="fr">
 
 <head>
     <!-- Mobile Specific Meta -->
@@ -18,7 +18,7 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>Electro Shop</title>
 
     <!--
             CSS

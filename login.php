@@ -2,7 +2,7 @@
 	session_start();
 	require("parameters.php");
 	if(isset($_SESSION['username'])){
-		header('Location: /electroshop/index.php');
+		header('Location: index.php');
 	}
 ?>
 <!DOCTYPE html>
@@ -71,7 +71,7 @@
 								$_SESSION['statut'] =3;
 							}
 							
-							header('Location: /electroshop/index.php');
+							header('Location: index.php');
 						}
 					}
 					?>

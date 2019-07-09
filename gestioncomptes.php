@@ -2,7 +2,7 @@
     session_start();
     require("parameters.php");
     if(!isset($_SESSION['username'])){
-		header('Location: /electroshop/login.php');
+		header('Location: login.php');
     }
     
 ?>
@@ -23,7 +23,7 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>Electro Shop</title>
     <!--
 			CSS
 			============================================= -->

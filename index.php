@@ -237,7 +237,7 @@
 						<div class="col-lg-4 col-md-4">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c2.png" alt="">
+								<img class="img-fluid w-100" src="img/category/c2.jpg" alt="">
 									<div class="deal-details">
 										<a href="category.php?filter=sound_light" class="deal-title" target="_blank">
 										<h6 class="deal-title">Sonorité et Lumière</h6></a>
@@ -247,7 +247,7 @@
 						<div class="col-lg-4 col-md-4">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c3.png" alt="">
+								<img class="img-fluid w-100" src="img/category/c3.jpg" alt="">
 									<div class="deal-details">
 										<a href="category.php?filter=audio_hifi" class="deal-title" target="_blank"><h6 class="deal-title">Audio et HIFI</h6></a>
 									</div>
@@ -256,7 +256,7 @@
 						<div class="col-lg-8 col-md-8">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c4.png" alt="">
+								<img class="img-fluid w-100" src="img/category/c4.jpg" alt="">
 									<div class="deal-details">
 										<a href="category.php?filter=garden" class="deal-title" target="_blank"><h6 class="deal-title">Jardin et Bricolage</h6></a>
 									</div>

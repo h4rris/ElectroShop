@@ -2,7 +2,7 @@
     session_start();
     require("parameters.php");
     if(!isset($_SESSION['username'])){
-		header('Location: /electroshop/login.php');
+		header('Location: login.php');
     }
     
 ?>
@@ -23,7 +23,7 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>Electro Shop</title>
     <!--
 			CSS
 			============================================= -->
@@ -153,9 +153,10 @@
                         
                         try{
                             // on insere l'article
-                            $requete2 = $bdd->prepare('INSERT INTO article (nom_article,id_categorie,stock_article,lien_image) VALUE(:nom_article,:id_categorie,:stock_article,:lien_image);');
+                            $requete2 = $bdd->prepare('INSERT INTO article (nom_article,description_article,id_categorie,stock_article,lien_image) VALUE(:nom_article,:description_article,:id_categorie,:stock_article,:lien_image);');
                             $requete2->execute(array(
                                 'nom_article' => $_POST['name'],
+                                'description_article' => $_POST['description'],
                                 'id_categorie' => $_POST['categorie'],
                                 'stock_article' => $_POST['quantity'],
                                 'lien_image' => $nomf
@@ -322,7 +323,7 @@
                                 </style>
                                 <!-- QUANTITE-->
                                 <div class="form-group form-inline">
-                                    <div class="form-group col-lg-6 col-md-6">
+                                    <div class="form-group col-lg-12 col-md-12">
                                     <div class="input-group plus-minus-input">
                                         <h5>Quantité :</h5>
                                         <div class="input-group-button">
@@ -338,14 +339,19 @@
                                         </div>
                                     </div>  
                                     </div>
-                                    <div class="form-group col-lg-6 col-md-6">
+                                    <br><br><br>
+                                    <div class="form-group col-lg-12 col-md-12">
                                     <h5>Prix :</h5>
                                     <input type="number" name="price" value="1" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="currency" id="c1" />
+                                    </div>
+                                    <br><br><br>
+                                    <div class="form-group col-lg-12 col-md-12">
+                                        <input type="text" class="form-control" name="description" id="description" placeholder="Description de l'article" onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Description de l article'">
                                     </div>
                                     <div class="form-group col-lg-6 col-md-6"><br/><br/>
                                     <input id="file-select" type="file" name="fichier"><br/>
                                     </div>
-                                    
                                 </div>
                                 
                                 <button type="submit" value="submit" name="buttonajout" id="buttonajout" class="primary-btn">Ajouter</button>

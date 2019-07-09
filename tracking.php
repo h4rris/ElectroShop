@@ -1,9 +1,7 @@
 <?php
     session_start();
     require("parameters.php");
-	// if(!isset($_SESSION['username'])){
-	// 	header('Location: index.php');
-	// }
+
 	
 ?><!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +20,7 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>ElectroShop</title>
+    <title>Electro Shop</title>
     <script src="js/sweetalert.min.js"></script>
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>
     <!--

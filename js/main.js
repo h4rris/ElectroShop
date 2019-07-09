@@ -8,6 +8,17 @@ $(document).ready(function(){
 	header_height_static = $(".site-header.static").outerHeight(),
 	fitscreen 			 = window_height - header_height;
 
+  $(document).ready(function(){
+    if ($(".badge").length) {
+      var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
+
+      $(".badge").html(existingEntries.length);
+    }
+  });
+
+  // $('.cart').hover(function(){
+  //   console.log('oui');
+  // });
 
 	$(".fullscreen").css("height", window_height)
     $(".fitscreen").css("height", fitscreen);

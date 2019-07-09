@@ -19,7 +19,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Karma Shop</title>
+	<title>Electro Shop</title>
 	<!--
 			CSS
 			============================================= -->
@@ -75,6 +75,9 @@
     									JOIN prix ON article.id_article = prix.id_article
     									WHERE article.id_article = '. $id_article);
 			$donnees_articles = $reponse->fetchAll();
+			if($reponse->rowCount() == 0){
+				header('Location: category.php');
+			}
 		}
 		catch (Exception $e)
 		{
@@ -201,9 +204,16 @@
 							<li><a class="active"><span>Catégorie</span> : <?php echo reset($donnees_articles)['texte_categorie']; ?></a></li>
 							<li><a><span>Disponibilité</span> : <?php if(reset($donnees_articles)['stock_article'] >1) { echo reset($donnees_articles)['stock_article']. ' articles en stock'; } else { echo '<span style="color:red">En rupture de stock</span>';} ?></a></li>
 						</ul>
-						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
-							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
-							during the winter.</p>
+						<?php
+						$requete = $bdd->prepare('SELECT description_article FROM article WHERE id_article=:id_article;');
+						$requete->execute(array(
+							'id_article' => $_GET['id_article']
+						));
+						while ($ligne=$requete->fetch()){
+							echo '<p>'.$ligne[0].'</p>';
+						}
+						$requete->closeCursor();
+						?>		
 						<div id="product_add_to_cart">
 							<div class="product_count">
 								<label for="qty">Quantity:</label>

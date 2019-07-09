@@ -34,9 +34,8 @@
             $_SESSION['validate']=1;
             session_write_close();
             echo $_SESSION['validate'];
-            header('Location: /electroshop/index.php');
-            // renvoyer vers index.php avec un GET et faire le check sur la page labas ??
-            // OU avec une variable de session que l'on destroy à l'arrivee 
+            header('Location: index.php');
+
         }
     }
     catch(Exception $e){
