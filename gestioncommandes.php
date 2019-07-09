@@ -388,7 +388,7 @@
         }
         function suppr(id_commande,id_panier){
             swal({
-            title: "Etes-vous sur de vouloir supprimer cet comande?",
+            title: "Etes-vous sur de vouloir supprimer cet commande?",
             text: "Si oui, finaliser l'action, si non annuler",
             icon: "warning",
             buttons: true,
