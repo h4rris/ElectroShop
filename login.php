@@ -71,7 +71,7 @@
 								$_SESSION['statut'] =3;
 							}
 							
-							header('Location: /electroshop/index.php');
+							header('Location: /Efrei/ElectroShop/index.php');
 						}
 					}
 					?>
