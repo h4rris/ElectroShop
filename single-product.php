@@ -23,31 +23,28 @@
 	<!--
 			CSS
 			============================================= -->
-			<link rel="stylesheet" href="css/linearicons.css">
+
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/nice-select.css">
     <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
     <link rel="stylesheet" href="css/ion.rangeSlider.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
-	<link rel="stylesheet" href="rating/css/star-rating.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link href="css/select2.min.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link href="css/buttons.dataTables.min.css" rel="stylesheet" media="all">
-    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- <link href="css/theme.css" rel="stylesheet" media="all"> -->
     <script src="js/sweetalert.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
     
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<script src="js/dataTables.buttons.min.js"></script>
-<script src="js/buttons.flash.min.js"></script>
-<script src="js/buttons.html5.min.js"></script>
-<script src="js/buttons.print.min.js"></script>
 <script language="javascript" type="text/javascript">
 	function removeSpaces(string) {
 	return string.split(' ').join('');
@@ -69,6 +66,10 @@
 		
 		try
 		{
+			if(!isset($_GET['id_article'])) {
+				header('Location: /Efrei/ElectroShop/index.php');
+			}
+
 			$id_article = $_GET['id_article'];
 			$bdd = new PDO('mysql:host=localhost;dbname=ElectroShop;charset=utf8', 'root', '');
 
@@ -78,6 +79,8 @@
     									JOIN prix ON article.id_article = prix.id_article
     									WHERE article.id_article = '. $id_article);
 			$donnees_articles = $reponse->fetchAll();
+			
+			
 		}
 		catch (Exception $e)
 		{
@@ -128,19 +131,21 @@
 						<h2 id="prix"><?php echo reset($donnees_articles)['prix']."€"; ?></h2>
 						<ul class="list">
 							<li><a class="active"><span>Catégorie</span> : <?php echo reset($donnees_articles)['texte_categorie']; ?></a></li>
-							<li><a href="#"><span>Disponibilité</span> : <?php echo reset($donnees_articles)['stock_article']; ?> articles en stock </a></li>
+							<li><a><span>Disponibilité</span> : <?php if(reset($donnees_articles)['stock_article'] >1) { echo reset($donnees_articles)['stock_article']. ' articles en stock'; } else { echo '<span style="color:red ; width : 126px">En rupture de stock</span>';} ?></a></li>
 						</ul>
 						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
 							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
 							during the winter.</p>
-						<div class="product_count">
-							<label for="qty">Quantity:</label>
-							<input id="quantity" type="text" name="qty" id="sst" max="<?php echo reset($donnees_articles)['stock_article']; ?>" value="1" title="Quantity:" class="input-text qty">
-							<button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-							<button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-						</div>
-						<div class="card_area d-flex align-items-center">
-							<a id="add_to_cart" data-id_article="<?php echo reset($donnees_articles)['id_article']; ?>" class="primary-btn" style="color: white">Ajouter dans le panier</a>
+						<div id="product_add_to_cart">
+							<div class="product_count">
+								<label for="qty">Quantity:</label>
+								<input id="quantity" type="text" name="qty" id="sst" max="<?php echo reset($donnees_articles)['stock_article']; ?>" value="1" title="Quantity:" class="input-text qty">
+								<button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+								<button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+							</div>
+							<div class="card_area d-flex align-items-center">
+								<a id="add_to_cart" data-id_article="<?php echo reset($donnees_articles)['id_article']; ?>" class="primary-btn" style="color: white">Ajouter dans le panier</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -246,15 +251,15 @@
 									<div class="box_total">
 										<h5>NOTE MOYENNE</h5>
 										<?php 
-											$requete1 = $bdd->prepare('SELECT COUNT(nb_etoile),nb_etoile FROM commentaires');
+											$requete1 = $bdd->prepare('SELECT COUNT(nb_etoile),SUM(nb_etoile) FROM commentaires');
 											$requete1->execute();
 											$total=0;
 											$nb_etoile=0;
 											while ($ligne=$requete1->fetch()){
 												$nb_etoile=$ligne[0];
-												$total+=$ligne[1];
+												$total=$ligne[1];
 											}
-											echo '<h4>'.floatval($total).'</h4>';
+											echo '<h4>'.round(floatval($total) / $nb_etoile,2).'</h4>';
 											echo '<h6>('.$nb_etoile.' commentaires)</h6>';
 											$requete1->closeCursor(); 
 										?>
@@ -605,7 +610,6 @@ $star_rating.on('click', function() {
 	<script src="js/main.js"></script>
 	<script src="js/single-product.js"></script>
     <script src="js/sweetalert.min.js"></script>
-	<script src="rating/js/star-rating.js" type="text/javascript"></script>
 
 </body>
 

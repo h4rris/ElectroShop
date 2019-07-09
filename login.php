@@ -161,7 +161,7 @@
 	<!-- End Header Area -->
 	<br/><br/>
 	<!--================Login Box Area =================-->
-	<section class="login_box_area section_gap">
+	<section class="login_box_area section_gap banner-area">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">

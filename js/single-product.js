@@ -64,16 +64,14 @@ $(document).ready(function() {
       }
   };
 	$(document).on('click', '#add_to_cart', function () {
-		var id_to_add = $(this).data('id_article');
-		var image = $('.img-fluid').attr('src');
-		var prix = parseInt($('#prix').html().slice(0, -1));
-		var text_article = $('#nom_article').html();
+  	var id_to_add = $(this).data('id_article');
+  	var image = $('.img-fluid').attr('src');
+  	var prix = parseInt($('#prix').html().slice(0, -1));
+  	var text_article = $('#nom_article').html();
 
-		var quantity = parseInt($("#quantity").attr('value'));
+  	var quantity = parseInt($("#quantity").attr('value'));
 
-
-		console.log(id_to_add,image, text_article, prix, quantity);
-		addEntry(id_to_add, image, text_article, prix, quantity);
+  	addEntry(id_to_add, image, text_article, prix, quantity);
 	});
 
 	$(document).on('click', '.increase', function() {
@@ -93,10 +91,15 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.reduced', function() {
-		var value = $(this).siblings('input').attr("value");
-		if (value > 1) {
-			$(this).siblings('input').attr("value", +value - +1);
-		}
+  		var value = $(this).siblings('input').attr("value");
+  		if (value > 1) {
+  			$(this).siblings('input').attr("value", +value - +1);
+  		}
     });
+
+    if ($('#quantity').attr('max') < 1 ) {
+
+      $('#product_add_to_cart').css('display', 'none');
+    }
 
 });

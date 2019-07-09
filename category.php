@@ -161,8 +161,6 @@
 
 							<?php 
 								}
-								// print_r($donnees_articles);
-								// json_encode($donnees_articles);
 							?>
 					</div>
 				</section>

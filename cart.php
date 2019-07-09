@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    require("parameters.php");  
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -35,6 +39,22 @@
 <body>
     <?php
         include 'navbar.html';
+
+        try
+        {
+            $bdd = new PDO('mysql:host=localhost;dbname=ElectroShop;charset=utf8', 'root', '');
+
+            //Récupération des articles
+            $reponse = $bdd->query('SELECT * FROM categorie 
+                                        JOIN article ON categorie.id_categorie = article.id_categorie 
+                                        JOIN prix ON article.id_article = prix.id_article');
+            $donnees_articles = $reponse->fetchAll();
+
+        }
+        catch (Exception $e)
+        {
+            die('Erreur : ' . $e->getMessage());
+        }
     ?>
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
@@ -107,7 +127,7 @@
                                 <td>
                                     <div class="checkout_btn_inner align-items-center">
                                         <a class=" col-md-3" href="#"></a>
-                                        <a class="primary-btn col-md-offset-8 float-right" href="#">Valider le panier</a>
+                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username'])) { echo 'checkout.php'; } else echo 'login.php';?>">Valider le panier</a>
                                     </div>
                                 </td>
                             </tr>
