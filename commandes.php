@@ -148,7 +148,7 @@
     </section>
     <!-- End Banner Area -->    
     <?php
-    if(!isset($_SESSION['username'])){
+    if(!isset($_SESSION['id'])){
         ?>
             <!--================Tracking Box Area =================-->
         <section class="tracking_box_area section_gap">

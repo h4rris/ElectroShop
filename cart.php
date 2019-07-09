@@ -1,5 +1,8 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<html lang="fr">
 
 <head>
     <!-- Mobile Specific Meta -->
