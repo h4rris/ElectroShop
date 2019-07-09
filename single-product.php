@@ -249,6 +249,7 @@
 											$requete1 = $bdd->prepare('SELECT COUNT(nb_etoile),nb_etoile FROM commentaires');
 											$requete1->execute();
 											$total=0;
+											$nb_etoile=0;
 											while ($ligne=$requete1->fetch()){
 												$nb_etoile=$ligne[0];
 												$total+=$ligne[1];
