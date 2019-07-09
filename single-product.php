@@ -9,7 +9,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
+	<link rel="shortcut icon" href="img/logo_flavicon.ico">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -23,31 +23,28 @@
 	<!--
 			CSS
 			============================================= -->
-			<link rel="stylesheet" href="css/linearicons.css">
+
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/nice-select.css">
     <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
     <link rel="stylesheet" href="css/ion.rangeSlider.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
-	<link rel="stylesheet" href="rating/css/star-rating.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link href="css/select2.min.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link href="css/buttons.dataTables.min.css" rel="stylesheet" media="all">
-    <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- <link href="css/theme.css" rel="stylesheet" media="all"> -->
     <script src="js/sweetalert.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
     
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<script src="js/dataTables.buttons.min.js"></script>
-<script src="js/buttons.flash.min.js"></script>
-<script src="js/buttons.html5.min.js"></script>
-<script src="js/buttons.print.min.js"></script>
 <script language="javascript" type="text/javascript">
 	function removeSpaces(string) {
 	return string.split(' ').join('');
@@ -65,19 +62,112 @@
         }
     ?>
 	<?php
-		include 'navbar.html';
-	?>
+		
+		
+		try
+		{
+			$id_article = $_GET['id_article'];
+			$bdd = new PDO('mysql:host=localhost;dbname=ElectroShop;charset=utf8', 'root', '');
 
+			//Récupération des articles
+			$reponse = $bdd->query('SELECT * FROM categorie 
+										JOIN article ON categorie.id_categorie = article.id_categorie 
+    									JOIN prix ON article.id_article = prix.id_article
+    									WHERE article.id_article = '. $id_article);
+			$donnees_articles = $reponse->fetchAll();
+		}
+		catch (Exception $e)
+		{
+		        die('Erreur : ' . $e->getMessage());
+		}
+
+		
+	?>
+	<!-- Start Header Area -->
+	<div class="header_area sticky-header">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="index.php"><img src="img/logo_electroShop.png" alt="" style="width: 150px"></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<li class="nav-item active"><a class="nav-link" href="index.php">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="category.php">Articles</a></li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false">COMMANDE</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="commandes.php">Suivre ma commande</a></li>
+									
+								</ul>
+							</li>
+							
+							<?php 
+							if(isset($_SESSION['statut'])){
+								
+								if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
+								<li class="nav-item submenu dropdown">
+									<a href="#" class="nav-link dropdown-toggle">Administration</a>
+									<ul class="dropdown-menu">	
+										<li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
+									</ul>
+								</li><?php
+							}
+							}	
+							?>
+							<li class="nav-item submenu dropdown">
+								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false"></span></a>
+								<ul class="dropdown-menu">
+									<?php 
+										if(isset($_SESSION['username'])){
+											?>
+											<li class="nav-item"><a class="nav-link" href="commandes.php">Mes commandes</a></li>
+											<li class="nav-item"><a class="nav-link" href="moncompte.php">Mon compte</a></li>
+											<li class="nav-item"><a class="nav-link" href="deconnexion.php">Se déconnecter</a></li>
+											<?php
+										}
+										else{
+											?>
+											<li class="nav-item"><a class="nav-link" href="login.php">Se connecter</a></li>
+											<?php
+										}
+										?>
+								</ul>
+							</li>
+							
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+						<li class="nav-item"><a href="cart.php" class="cart"><span class="ti-bag"></span><span class="badge"></span></a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+	<!-- End Header Area -->
+
+	
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Product Details Page</h1>
+					<h1>Details du produit</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
-						<a href="single-product.html">product-details</a>
+						<a href="category.php">Articles<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">Details du produit</a>
 					</nav>
 				</div>
 			</div>
@@ -92,39 +182,38 @@
 				<div class="col-lg-6">
 					<div class="s_Product_carousel">
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/<?php echo reset($donnees_articles)['lien_image']; ?>" alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/<?php echo reset($donnees_articles)['lien_image']; ?>"alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/<?php echo reset($donnees_articles)['lien_image']; ?>" alt="">
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-lg-5 offset-lg-1">
 					<div class="s_product_text">
-						<h3>Faded SkyBlu Denim Jeans</h3>
-						<h2>$149.99</h2>
+						<h3 id="nom_article"><?php echo reset($donnees_articles)['nom_article']; ?></h3>
+						<h2 id="prix"><?php echo reset($donnees_articles)['prix']."€"; ?></h2>
 						<ul class="list">
-							<li><a class="active" href="#"><span>Category</span> : Household</a></li>
-							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
+							<li><a class="active"><span>Catégorie</span> : <?php echo reset($donnees_articles)['texte_categorie']; ?></a></li>
+							<li><a><span>Disponibilité</span> : <?php if(reset($donnees_articles)['stock_article'] >1) { echo reset($donnees_articles)['stock_article']. ' articles en stock'; } else { echo '<span style="color:red">En rupture de stock</span>';} ?></a></li>
 						</ul>
 						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
 							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
 							during the winter.</p>
-						<div class="product_count">
-							<label for="qty">Quantity:</label>
-							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							 class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-							 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-						</div>
-						<div class="card_area d-flex align-items-center">
-							<a class="primary-btn" href="#">Add to Cart</a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+						<div id="product_add_to_cart">
+							<div class="product_count">
+								<label for="qty">Quantity:</label>
+								<input id="quantity" type="text" name="qty" id="sst" max="<?php echo reset($donnees_articles)['stock_article']; ?>" value="1" title="Quantity:" class="input-text qty">
+								<button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+								<button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+							</div>
+							<div class="card_area d-flex align-items-center">
+								<a id="add_to_cart" data-id_article="<?php echo reset($donnees_articles)['id_article']; ?>" class="primary-btn" style="color: white">Ajouter dans le panier</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -200,7 +289,7 @@
 												timer: 3000
 											})
 											.then((willDelete) => {
-													window.location.href = "index.php";
+													window.location.href = "single-product.php?id_article="+id_article;
 											
 											});
 										},
@@ -230,14 +319,22 @@
 									<div class="box_total">
 										<h5>NOTE MOYENNE</h5>
 										<?php 
-											$requete1 = $bdd->prepare('SELECT COUNT(nb_etoile),nb_etoile FROM commentaires');
-											$requete1->execute();
+											$requete1 = $bdd->prepare('SELECT COUNT(nb_etoile),SUM(nb_etoile) FROM commentaires WHERE id_article=:id_article');
+											$requete1->execute(array(
+												'id_article' => $_GET['id_article']
+											));
 											$total=0;
+											$nb_etoile=0;
 											while ($ligne=$requete1->fetch()){
 												$nb_etoile=$ligne[0];
-												$total+=$ligne[1];
+												$total=$ligne[1];
 											}
-											echo '<h4>'.floatval($total).'</h4>';
+											if($nb_etoile == 0){
+												echo '<h4>0.00</h4>';
+											}
+											else{
+												echo '<h4>'.round(floatval($total) / $nb_etoile,2).'</h4>';
+											}
 											echo '<h6>('.$nb_etoile.' commentaires)</h6>';
 											$requete1->closeCursor(); 
 										?>
@@ -295,8 +392,8 @@
 							?>
 							<div class="col-lg-6">
 							<div class="review_box">
-								<h4>Add a Review</h4>
-								<p>Your Rating:</p>
+								<h4>Ajouter un commentaire</h4>
+								<p>Votre note :</p>
 								<style>
 								.star-rating {
 									line-height:32px;
@@ -305,7 +402,7 @@
 								.star-rating .fa-star{color: yellow;}
 								</style>
 								<div id="id_stars" class="star-rating">
-									<span id="id_stars1" class="fa fa-star-o" data-rating="1"></span>
+									<span id="id_stars1" class="fa fa-star" data-rating="1"></span>
 									<span id="id_stars2" class="fa fa-star-o" data-rating="2"></span>
 									<span id="id_stars3" class="fa fa-star-o" data-rating="3"></span>
 									<span id="id_stars4" class="fa fa-star-o" data-rating="4"></span>
@@ -321,7 +418,9 @@
 										</div>
 									</div>
 									<div class="col-md-12 text-right"><?php
-										echo '<button onclick=action_com(1,1) name="action_com" id="action_com" type="submit" value="submit" class="primary-btn">Submit Now</button>';
+										$id_session =$_SESSION['id'];
+										$id_article =$_GET['id_article'];
+										echo "<button onclick=action_com('$id_session','$id_article') name='action_com' id='action_com' type='submit' value='submit' class='primary-btn'>Ajouter</button>";
 									?></div>
 								<!-- </form> -->
 							</div>
@@ -336,212 +435,22 @@
 	</section>
 	<!--================End Product Description Area =================-->
 
-	<!-- Start related-product Area -->
-	<section class="related-product-area section_gap_bottom">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6 text-center">
-					<div class="section-title">
-						<h1>Deals of the Week</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-9">
-					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r1.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r2.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r3.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r5.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r6.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r7.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r9.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r10.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r11.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3">
-					<div class="ctg-right">
-						<a href="#" target="_blank">
-							<img class="img-fluid d-block mx-auto" src="img/category/c5.jpg" alt="">
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End related-product Area -->
+
 
 	<!-- start footer Area -->
 	<footer class="footer-area section_gap">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3  col-md-6 col-sm-6">
+				<div class="col-lg-12  col-md-12 col-sm-12 text-center">
 					<div class="single-footer-widget">
 						<h6>About Us</h6>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore
-							magna aliqua.
+							Site crée par ASHOKAR Harris et VILLEDIEU Anthony <br>
+							Copyright &copy; 2019 . All rights reserved
 						</p>
 					</div>
 				</div>
-				<div class="col-lg-4  col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>Newsletter</h6>
-						<p>Stay update with our latest</p>
-						<div class="" id="mc_embed_signup">
-
-							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-							 method="get" class="form-inline">
-
-								<div class="d-flex flex-row">
-
-									<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-									 required="" type="email">
-
-
-									<button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-									<div style="position: absolute; left: -5000px;">
-										<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-									</div>
-
-									<!-- <div class="col-lg-4 col-md-4">
-												<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-											</div>  -->
-								</div>
-								<div class="info"></div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3  col-md-6 col-sm-6">
-					<div class="single-footer-widget mail-chimp">
-						<h6 class="mb-20">Instragram Feed</h6>
-						<ul class="instafeed d-flex flex-wrap">
-							<li><img src="img/i1.jpg" alt=""></li>
-							<li><img src="img/i2.jpg" alt=""></li>
-							<li><img src="img/i3.jpg" alt=""></li>
-							<li><img src="img/i4.jpg" alt=""></li>
-							<li><img src="img/i5.jpg" alt=""></li>
-							<li><img src="img/i6.jpg" alt=""></li>
-							<li><img src="img/i7.jpg" alt=""></li>
-							<li><img src="img/i8.jpg" alt=""></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-2 col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>Follow Us</h6>
-						<p>Let us be social</p>
-						<div class="footer-social d-flex align-items-center">
-							<a href="#"><i class="fa fa-facebook"></i></a>
-							<a href="#"><i class="fa fa-twitter"></i></a>
-							<a href="#"><i class="fa fa-dribbble"></i></a>
-							<a href="#"><i class="fa fa-behance"></i></a>
-						</div>
-					</div>
-				</div>
+			
 			</div>
 			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
 				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -551,6 +460,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			</div>
 		</div>
 	</footer>
+	<!-- End footer Area -->
 	<script>
 	
 	var $star_rating = $('.star-rating .fa');
@@ -586,7 +496,8 @@ $star_rating.on('click', function() {
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="js/gmaps.min.js"></script>
 	<script src="js/main.js"></script>
-	<script src="rating/js/star-rating.js" type="text/javascript"></script>
+	<script src="js/single-product.js"></script>
+    <script src="js/sweetalert.min.js"></script>
 
 </body>
 

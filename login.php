@@ -12,7 +12,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
+	<link rel="shortcut icon" href="img/logo_flavicon.ico">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -94,14 +94,14 @@
 
 
 	<!-- Start Header Area -->
-	<header class="header_area sticky-header">
+	<div class="header_area sticky-header">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.php"><img src="img/logo_electroshop.png" style="width :150px;" alt=""></a>
+					<a class="navbar-brand logo_h" href="index.php"><img src="img/logo_electroShop.png" alt="" style="width: 150px"></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -109,64 +109,71 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+							<li class="nav-item active"><a class="nav-link" href="index.php">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="category.php">Articles</a></li>
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Shop</a>
+								aria-expanded="false">COMMANDE</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-									<li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-									<li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-									<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+									<li class="nav-item"><a class="nav-link" href="commandes.php">Suivre ma commande</a></li>
+									
 								</ul>
 							</li>
+							
+							<?php 
+							if(isset($_SESSION['statut'])){
+								
+								if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
+								<li class="nav-item submenu dropdown">
+									<a href="#" class="nav-link dropdown-toggle">Administration</a>
+									<ul class="dropdown-menu">	
+										<li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+										<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
+									</ul>
+								</li><?php
+							}
+							}	
+							?>
 							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
+								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false"></span></a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+									<?php 
+										if(isset($_SESSION['username'])){
+											?>
+											<li class="nav-item"><a class="nav-link" href="commandes.php">Mes commandes</a></li>
+											<li class="nav-item"><a class="nav-link" href="moncompte.php">Mon compte</a></li>
+											<li class="nav-item"><a class="nav-link" href="deconnexion.php">Se déconnecter</a></li>
+											<?php
+										}
+										else{
+											?>
+											<li class="nav-item"><a class="nav-link" href="login.php">Se connecter</a></li>
+											<?php
+										}
+										?>
 								</ul>
 							</li>
-							<li class="nav-item submenu dropdown active">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item active"><a class="nav-link" href="login.html">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
-								</ul>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+							
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-							
+						<li class="nav-item"><a href="cart.php" class="cart"><span class="ti-bag"></span><span class="badge"></span></a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
 		</div>
-		<div class="search_input" id="search_input_box">
-			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
-		</div>
-	</header>
+	</div>
 	<!-- End Header Area -->
 	<br/><br/>
 	<!--================Login Box Area =================-->
-	<section class="login_box_area section_gap">
+	<section class="login_box_area section_gap banner-area">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
 					<!-- FORM HTML de creation -->
-					<div class="login_form_inner">
+					<div class="login_form_inner" style="background:white;">
 						<div class="hover">
 							<h3>CREER UN COMPTE</h3>
 							<p>Crée un compte pour pouvoir accès à toutes les nouveautés !</p>
@@ -329,7 +336,7 @@
 
 				<!-- FORMULAIRE DE CONNETION -->
 				<div class="col-lg-6">
-					<div class="login_form_inner">
+					<div class="login_form_inner" style="background:white;">
 						<h3>SE CONNECTER</h3>
 						<form class="row login_form" method="post" id="connectForm">
 							<div class="col-md-12 form-group">
@@ -394,7 +401,19 @@
 
 	<!-- start footer Area -->
 	<footer class="footer-area section_gap">
-		<div class="container">	
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12  col-md-12 col-sm-12 text-center">
+					<div class="single-footer-widget">
+						<h6>About Us</h6>
+						<p>
+							Site crée par ASHOKAR Harris et VILLEDIEU Anthony <br>
+							Copyright &copy; 2019 . All rights reserved
+						</p>
+					</div>
+				</div>
+			
+			</div>
 			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
 				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
@@ -408,7 +427,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
-	<script src="js/vendor/bootstrap.min.js"></script
+	<script src="js/vendor/bootstrap.min.js"></script>
 	<script src="js/jquery.ajaxchimp.min.js"></script>
 	<script src="js/jquery.nice-select.min.js"></script>
 	<script src="js/jquery.sticky.js"></script>
