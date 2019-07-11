@@ -20,7 +20,8 @@
     <meta charset="UTF-8">
     <!-- Site Title -->
     <title>Electro Shop</title>
-
+    <script src="js/sweetalert.min.js"></script>
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <!--
             CSS
             ============================================= -->
@@ -42,7 +43,79 @@
 	}
 	catch (Exception $e){
 		die('Erreur : ' . $e->getMessage());
-    }?>
+    }
+    if(isset($_POST['radio'])){
+       if($_POST['radio'] == "formulaire"){
+           //nouveau formulaire
+           if(!empty($_POST['prenom']) && !empty($_POST['nom']) && !empty($_POST['adresse']) && !empty($_POST['ville']) && !empty($_POST['pays']) && !empty($_POST['codepostal']) && !empty($_POST['telephone'])){
+                if((strlen($_POST['codepostal']) >5) || (strlen($_POST['telephone']>10))){
+                    ?><script>
+                    swal({
+                        title: "Code Postal et/ou numéro de téléphone invalide !",
+                        text: "Code Postal : 5 chiffres et Téléphone : 10 chiffres ",
+                        icon: "error"
+                        })
+                        .then((willDelete) => {
+                            window.location.href = "checkout.php";
+                            
+                        });
+                    </script>
+                    <?php
+                }
+                else{
+                    ?><script>
+                        $.ajax({
+                            url : "add_commande.php",
+                            data : {
+                                typeChgmnt: 'formulaire',
+                                prenom : "<?php echo $_POST['prenom'];?>",
+                                nom : "<?php echo $_POST['nom'];?>",
+                                ville : "<?php echo $_POST['ville'];?>",
+                                pays : "<?php echo $_POST['pays'];?>",
+                                codepostal : "<?php echo $_POST['codepostal'];?>",
+                                telephone : "<?php echo $_POST['telephone'];?>",
+                                rue : "<?php echo $_POST['adresse'];?>"
+
+                            },
+                            cache : false,
+                            success : function(response){
+                                swal("Action traitée avec succès!", {
+                                    icon: "success",
+                                    timer: 3000
+                                })
+                                .then((willDelete) => {
+                                        window.location.href = "index.php";
+                                
+                                });
+                            },
+                            error : function(request, error){
+                                console.log(error);
+                            }
+                        });
+                    </script><?php
+                }
+            }
+            else{
+                ?><script>
+                swal({
+                    title: "Veuillez remplir tous les champs !",
+                    icon: "error"
+                    })
+                    .then((willDelete) => {
+                        window.location.href = "checkout.php";
+                        
+                    });
+                </script>
+                <?php
+            }
+       }
+        else{
+            // radio inconnu
+       }
+    }
+    
+    
+    ?>
     <!-- Start Header Area -->
 	<div class="header_area sticky-header">
 		<div class="main_menu">
@@ -229,7 +302,7 @@
                                 <div class="card">
                                     <div class="card-header" id="headingTwo">
                                     <h5 class="mb-0">
-                                        <input type="radio" name="radio" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <input type="radio" name="radio" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" value="formulaire">
                                         Saisir une nouvelle adresse de livraison :
                                         </input>
                                     </h5>
@@ -263,7 +336,7 @@
                                                     <input type="text" class="form-control" id="codepostal" name="codepostal" placeholder="Code Postal">
                                                 </div>
                                                 <div class="col-md-6 form-group p_star">
-                                                    <input type="text" class="form-control" id="telephone" name="telephone">
+                                                    <input type="number" class="form-control" id="telephone" name="telephone" pattern="[0-9]{10}">
                                                     <span class="placeholder" data-placeholder="Téléphone"></span>
                                                 </div>
                                                 </div>
@@ -314,7 +387,6 @@
             </div>
         </div>
     </section>
-    <?php print_r($_POST);?>
     <!--================End Checkout Area =================-->
 
      <!-- start footer Area -->
