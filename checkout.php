@@ -1,6 +1,7 @@
 <?php
     session_start();
     require("parameters.php");
+    print_r($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,22 +49,17 @@
        if($_POST['radio'] == "formulaire"){
            //nouveau formulaire
            if(!empty($_POST['prenom']) && !empty($_POST['nom']) && !empty($_POST['adresse']) && !empty($_POST['ville']) && !empty($_POST['pays']) && !empty($_POST['codepostal']) && !empty($_POST['telephone'])){
-                if((strlen($_POST['codepostal']) >5) || (strlen($_POST['telephone']>10))){
+                
                     ?><script>
-                    swal({
-                        title: "Code Postal et/ou numéro de téléphone invalide !",
-                        text: "Code Postal : 5 chiffres et Téléphone : 10 chiffres ",
-                        icon: "error"
-                        })
-                        .then((willDelete) => {
-                            window.location.href = "checkout.php";
-                            
+                        var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
+                        var sous_total = 0;
+                        existingEntries.forEach(function(element) {
+                            sous_total = (element.prix * element.quantity) + sous_total;
                         });
-                    </script>
-                    <?php
-                }
-                else{
-                    ?><script>
+                        console.log('localStorage');
+                        total=sous_total+5;
+                        console.log(existingEntries);
+                        
                         $.ajax({
                             url : "add_commande.php",
                             data : {
@@ -74,7 +70,9 @@
                                 pays : "<?php echo $_POST['pays'];?>",
                                 codepostal : "<?php echo $_POST['codepostal'];?>",
                                 telephone : "<?php echo $_POST['telephone'];?>",
-                                rue : "<?php echo $_POST['adresse'];?>"
+                                rue : "<?php echo $_POST['adresse'];?>",
+                                data : existingEntries,
+                                total : total
 
                             },
                             cache : false,
@@ -84,7 +82,7 @@
                                     timer: 3000
                                 })
                                 .then((willDelete) => {
-                                        window.location.href = "index.php";
+                                        window.location.href = "confirmation.php";
                                 
                                 });
                             },
@@ -93,7 +91,7 @@
                             }
                         });
                     </script><?php
-                }
+                
             }
             else{
                 ?><script>
@@ -362,6 +360,7 @@
                             <ul class="list list_2">
                                 <li><a href="#">Sous-total <span id="sub_total"></span></a></li>
                                 <li><a href="#">Livraison <span id="livraion">5€</span></a></li>
+                                
                                 <li><a href="#">Total <span id="total"></span></a></li>
                             </ul>
                             <div class="payment_item active">

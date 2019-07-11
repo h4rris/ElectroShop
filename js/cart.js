@@ -1,7 +1,13 @@
 $(document).ready(function(){
 	if ($("#cart_section").length) {
 
-		function update_cart_total() {
+		var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
+
+		existingEntries.forEach(function(element) {
+			$('#cart_body').prepend('<tr data-idArticle="'+element.id_article+'"><td><div class="media"><div class="d-flex"><img src="'+ element.image +'" style="height: 137px; width: 191px;" alt=""></div> <div class="media-body"> <p>'+ element.text +'</p><br/><p><a href="javascript:void(0)" class="supprimer_article">Supprimer</a></p> </div> </div> </td> <td> <h5 class="prix_article">'+ element.prix + '€' + '</h5> </td> <td> <div class="product_count"> <input type="number" name="qty" class="quantity" max="10" value="'+ element.quantity +'" class="input-text qty"> <button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button> <button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button> </div> </td> <td> <h5 class="prix_total_par_article">'+ element.quantity * element.prix + "€" +'</h5> </td> </tr>');
+		});
+
+		function update_cart_total(id_article, quantity) {
 			// $('#total_amount_cart');
 
 			var total = 0;
@@ -9,14 +15,33 @@ $(document).ready(function(){
 
 			    total += parseInt($(this).html().slice(0, -1));
 		 	})
-			$('#total_amount_cart').html(total+ +5);
-			$('#total_amount_cart').data("total", total)
+			$('#total_amount_cart').html(total);
+			$('#total_amount_cart').data("total", total);
+
+
+			existingEntries.forEach(function(element) {
+				if (element.id_article == id_article) {
+					element.quantity = quantity;
+				}
+			});
+
+			localStorage.setItem("cart_items", JSON.stringify(existingEntries));
 		}
 
-		var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
+		$.get( "all_articles.php")
+		  	.done(function(data) {
+		  		var obj = JSON.parse(data);
 
-		existingEntries.forEach(function(element) {
-			$('#cart_body').prepend('<tr data-idArticle="'+element.id_article+'"><td><div class="media"><div class="d-flex"><img src="'+ element.image +'" style="height: 137px; width: 191px;" alt=""></div> <div class="media-body"> <p>'+ element.text +'</p><br/><p><a href="javascript:void(0)" class="supprimer_article">Supprimer</a></p> </div> </div> </td> <td> <h5 class="prix_article">'+ element.prix + '€' + '</h5> </td> <td> <div class="product_count"> <input type="number" name="qty" class="quantity" max="10" value="'+ element.quantity +'" title="Quantity:" class="input-text qty"> <button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button> <button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button> </div> </td> <td> <h5 class="prix_total_par_article">'+ element.quantity * element.prix + "€" +'</h5> </td> </tr>');
+			    obj.forEach(function (element) {
+			    	$('#cart_body>tr').each(function() {
+				    	if ($(this).data('idarticle') == element.id_article) {
+							$(this).find('input').attr('max',element.stock_article);
+				    	}
+				    });
+			    });
+			})
+			.fail(function(error) {
+				console.log(error);
 		});
 
 		$(document).on('click', '.increase', function() {
@@ -30,7 +55,9 @@ $(document).ready(function(){
 				var prix = parseInt($(this).closest('td').prev('td').text().slice(0, -1));
 				$(this).closest('td').next('td').find('h5').html(prix * (+value + +1) + '€');
 
-				update_cart_total();
+				var id = $(this).closest('tr').data('idarticle')
+				var value = $(this).siblings('input').attr('value');
+				update_cart_total(id, value);
 			}
 			else {
 				swal({
@@ -48,7 +75,9 @@ $(document).ready(function(){
 				var prix = parseInt($(this).closest('td').prev('td').text().slice(0, -1));
 				$(this).closest('td').next('td').find('h5').html(prix * (+value - +1) + '€');
 
-				update_cart_total();
+				var id = $(this).closest('tr').data('idarticle')
+				var value = $(this).siblings('input').attr('value');
+				update_cart_total(id, value);
 			}
 		});
 

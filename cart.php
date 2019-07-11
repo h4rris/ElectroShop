@@ -36,9 +36,6 @@
 </head>
 
 <body>
-    <?php
-        
-    ?>
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
         <div class="container">
@@ -184,7 +181,7 @@
                                 <td>
                                     <div class="checkout_btn_inner align-items-center">
                                         <a class=" col-md-3" href="#"></a>
-                                        <a class="primary-btn col-md-offset-8 float-right" href="#">Valider le panier</a>
+                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username'])) { echo 'checkout.php'; } else echo 'login.php';?>">Valider le panier</a>
                                     </div>
                                 </td>
                             </tr>

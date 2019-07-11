@@ -17,6 +17,19 @@ require("parameters.php");
                 'statut' => 'valide'
             ));
             $requete->closeCursor();
+            $requete1 = $bdd->prepare('SELECT quantite,a.id_article FROM commande INNER JOIN panier AS p ON commande.id_panier=p.id_panier INNER JOIN article a ON p.id_article=a.id_article WHERE id_commande=:id_commande');
+            $requete1->execute(array(
+                'id_commande' => $id_commande,
+            ));
+            while ($ligne=$requete1->fetch()){
+                $requete2 = $bdd->prepare('UPDATE article SET stock_article=stock_article-:quantite WHERE id_article=:id_article');
+                $requete2->execute(array(
+                    'id_article' => $ligne[1],
+                    'quantite' => $ligne[0]
+                ));
+                $requete2->closeCursor();
+            }
+            $requete1->closeCursor();
         }
         catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
