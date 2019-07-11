@@ -6,9 +6,14 @@ $(document).ready(function(){
 
 		$('#purchase_summary').append('<tr><td title="'+ element.text +'">'+ element.text +'</td><td align="center">'+ element.quantity +'</td><td align="right">'+ element.prix * element.quantity + '€' +'</td></tr>');
 		sous_total = (element.prix * element.quantity) + sous_total;
-		console.log(sous_total);
 	});
 
 	$('#sub_total').html(sous_total + '€');
 	$('#total').html(sous_total + +5 + '€');
+
+	$(document).on('click', 'input:radio', function() {
+		$('#total').html(sous_total + parseInt($(this).attr('value')) + '€');
+	});
+
+	$(document).on('click')
 });

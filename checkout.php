@@ -239,15 +239,23 @@
                             </table>
                             <ul class="list list_2">
                                 <li><a href="#">Sous-total <span id="sub_total"></span></a></li>
-                                <li><a href="#">Livraison <span id="livraion">5€</span></a></li>
+                                <li style="margin: 15px 0px 15px 0px;"><a style="position: absolute;">Livraison</a>
+                                    <div align="right">
+                                        <label for="standard">Standard : 5€ &nbsp;</label>
+                                        <input type="radio" id="standard" name="shipping" value="5" checked>
+                                    </div>
+                                    <div align="right">
+                                        <label for="express">Express : 10€ &nbsp;</label>
+                                        <input type="radio" id="express" name="shipping" value="10">
+                                    </div>
+                                </li>
                                 <li><a href="#">Total <span id="total"></span></a></li>
                             </ul>
                             <div class="payment_item active">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option6" name="selector">
-                                    <label for="f-option6">Paypal </label>
+                                <div >
+                                    <input type="radio" id="f-option6" name="selector" checked>
+                                    <label for="express">&nbsp; Paypal</label>
                                     <img src="img/product/card.jpg" alt="">
-                                    <div class="check"></div>
                                 </div>
                                 <p>Payer via PayPal; you can pay with your credit card if you don’t have a PayPal
                                     account.</p>
