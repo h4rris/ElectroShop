@@ -112,9 +112,4 @@ $(document).ready(function() {
       console.log($('#'+key+'_stars').html('('+stars[key]+')'));
       
     }
-
-
-
-
-
 });

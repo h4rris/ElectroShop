@@ -76,7 +76,7 @@
                             },
                             cache : false,
                             success : function(response){
-                                
+                                localStorage.removeItem("cart_items");
                                 swal("Action traitée avec succès!", {
                                     icon: "success",
                                     timer: 3000
@@ -415,21 +415,6 @@
                                 <li><a href="#">Livraison <span id="livraion">5€</span></a></li>
                                 <li><a href="#">Total <span id="total"></span></a></li>
                             </ul>
-                            <div class="payment_item active">
-                                <div>
-                                    <input type="radio" id="f-option6" name="selector" checked>
-                                    <label for="express">&nbsp; Paypal</label>
-                                    <img src="img/product/card.jpg" alt="">
-                                </div>
-                                <br/>
-                                <p>Payer via PayPal; you can pay with your credit card if you don’t have a PayPal
-                                    account.</p>
-                            </div>
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option4" name="selector">
-                                <label for="f-option4">I’ve read and accept the </label>
-                                <a href="#">terms & conditions*</a>
-                            </div>
                             <script
                                 src="https://www.paypal.com/sdk/js?client-id=Ab9LOTR2uxWzZAtl-lPWqxsZtUPrLCYbG-aPVdlmcxUnrA7AjwgBB_iKddRyrvZIDr0kvCm7XkurpyPV">
                             </script>
@@ -437,7 +422,7 @@
                             <!-- <script>
                             paypal.Buttons().render('#paypal-button-container');
                             </script> -->
-                            <button type="submit" value="submit" id="buttonCreate" class="primary-btn" style="display: none;">Proceed to Paypal</button>
+                            <button style="display:none;" type="submit" value="submit" id="buttonCreate" class="primary-btn text-center" >VALIDER MA COMMANDE</button>
                             </form>
                         </div>
                     </div>
@@ -458,17 +443,19 @@
     },
     onApprove: function(data, actions) {
       return actions.order.capture().then(function(details) {
-        alert('Transaction completed by ' + details.payer.name.given_name);
-        // Call your server to save the transaction
-        return fetch('/confirmation', {
-          method: 'post',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderID: data.orderID
-          })
-        });
+        document.getElementById("paypal-button-container").style.display = "none";
+        document.getElementById("buttonCreate").style.display = "block";
+        // alert('Transaction completed by ' + details.payer.name.given_name);
+        // // Call your server to save the transaction
+        // return fetch('/confirmation', {
+        //   method: 'post',
+        //   headers: {
+        //     'content-type': 'application/json'
+        //   },
+        //   body: JSON.stringify({
+        //     orderID: data.orderID
+        //   })
+        // });
       });
     }
   }).render('#paypal-button-container');
