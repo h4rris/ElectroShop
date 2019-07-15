@@ -94,7 +94,7 @@
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
-								<ul class="dropdown-menu">
+								<ul class="dropdown-menu" style="margin-left: -80px;">
 									<?php 
 										if(isset($_SESSION['username'])){
 											?>
@@ -166,7 +166,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="categories_post">
-                        <img src="img/blog/cat-post/cat-post-2.jpg" alt="post">
+                        <img src="img/stat/users.png" alt="post">
                         <div class="categories_details">
                             <div class="categories_text">
                                 <a href="blog-details.html">
@@ -212,7 +212,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="categories_post">
-                        <img style="width:360px;height:220px;" src="img/stat/pie-chart.png" alt="post">
+                        <img style="width:360px;height:220px;" src="img/stat/pie-chart1.png" alt="post">
                         <div class="categories_details">
                             <div class="categories_text">
                                 <a href="blog-details.html">
@@ -253,7 +253,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="categories_post">
-                        <img style="width:360px;height:220px;" src="img/stat/pie-chart.png" alt="post">
+                        <img style="width:360px;height:220px;" src="img/stat/pie-chart2.png" alt="post">
                         <div class="categories_details">
                             <div class="categories_text">
                                 <a href="blog-details.html">
@@ -277,7 +277,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="categories_post">
-                        <img style="width:360px;height:220px;" src="img/stat/pie-chart.png" alt="post">
+                        <img style="width:360px;height:220px;" src="img/stat/chart.png" alt="post">
                         <div class="categories_details">
                             <div class="categories_text">
                                 <a href="blog-details.html">
@@ -297,7 +297,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="categories_post">
-                        <img style="width:360px;height:220px;" src="img/stat/pie-chart.png" alt="post">
+                        <img style="width:360px;height:220px;" src="img/stat/pie-chart2.png" alt="post">
                         <div class="categories_details">
                             <div class="categories_text">
                                 <a href="blog-details.html">
@@ -317,7 +317,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="categories_post">
-                        <img style="width:360px;height:220px;" src="img/stat/pie-chart.png" alt="post">
+                        <img style="width:360px;height:220px;" src="img/stat/pie-chart1.png" alt="post">
                         <div class="categories_details">
                             <div class="categories_text">
                                 <a href="blog-details.html">

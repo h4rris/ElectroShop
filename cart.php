@@ -97,7 +97,7 @@
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
-								<ul class="dropdown-menu">
+								<ul class="dropdown-menu" style="margin-left: -80px;">
 									<?php 
 										if(isset($_SESSION['username'])){
 											?>
@@ -162,7 +162,7 @@
                                 <td>
                                     <div class="checkout_btn_inner align-items-center">
                                         <a class=" col-md-3" href="#"></a>
-                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username']) && ($_SESSION['valid']) !=0) { echo 'checkout.php'; } else echo 'login.php';?>">Valider le panier</a>
+                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username']) && ($_SESSION['valid']) !=0) { echo '#'; } else echo '#';?>">Valider le panier</a>
                                     </div>
                                 </td>
                             </tr>

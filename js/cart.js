@@ -116,6 +116,11 @@ $(document).ready(function(){
 			$('#total_amount_cart').html(total+ parseInt($(this).data("delivery-price")));
 		});
 
+		
+		if ($('#total_amount_cart').html() == 0) {
+			$("#cart_validate").attr("href", "category.php")
+		}
+
 		update_cart_total();
 
 	}

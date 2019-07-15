@@ -27,6 +27,7 @@
     <!--
 			CSS
 			============================================= -->
+    <link href="css/theme.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/themify-icons.css">
@@ -41,7 +42,6 @@
     <link href="css/select2.min.css" rel="stylesheet" media="all">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <link href="css/buttons.dataTables.min.css" rel="stylesheet" media="all">
-    <link href="css/theme.css" rel="stylesheet" media="all">
     <script src="js/sweetalert.min.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script> 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
@@ -110,7 +110,7 @@
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
-								<ul class="dropdown-menu">
+								<ul class="dropdown-menu" style="margin-left: -80px;">
 									<?php 
 										if(isset($_SESSION['username'])){
 											?>

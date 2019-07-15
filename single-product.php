@@ -23,10 +23,9 @@
 	<!--
 			CSS
 			============================================= -->
-
+    <link href="css/theme.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
     <link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/owl.carousel.css">
@@ -39,7 +38,6 @@
     <link rel="stylesheet" href="css/themify-icons.css">
     <link rel="stylesheet" href="css/ion.rangeSlider.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
-    <!-- <link href="css/theme.css" rel="stylesheet" media="all"> -->
     <script src="js/sweetalert.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
@@ -130,7 +128,7 @@
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
-								<ul class="dropdown-menu">
+								<ul class="dropdown-menu" style="margin-left: -80px;">
 									<?php 
 										if(isset($_SESSION['username'])){
 											?>

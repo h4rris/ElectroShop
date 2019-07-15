@@ -133,7 +133,7 @@
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
-								<ul class="dropdown-menu">
+								<ul class="dropdown-menu" style="margin-left: -80px;">
 									<?php 
 										if(isset($_SESSION['username'])){
 											?>
@@ -264,7 +264,7 @@
 						<div class="col-lg-4 col-md-4">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c2.jpg" alt="">
+								<img class="img-fluid w-100" src="img/category/c2.png" alt="">
 									<div class="deal-details">
 										<a href="category.php?filter=sound_light" class="deal-title" target="_blank">
 										<h6 class="deal-title">Sonorité et Lumière</h6></a>
@@ -283,7 +283,7 @@
 						<div class="col-lg-8 col-md-8">
 							<div class="single-deal">
 								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="img/category/c4.jpg" alt="">
+								<img class="img-fluid w-100" src="img/category/c4.png" alt="">
 									<div class="deal-details">
 										<a href="category.php?filter=garden" class="deal-title" target="_blank"><h6 class="deal-title">Jardin et Bricolage</h6></a>
 									</div>
