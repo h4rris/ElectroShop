@@ -101,9 +101,28 @@
 										<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
 									</ul>
 								</li><?php
-							}
-							}	
-							?>
+                                }
+                            }
+                            if(isset($_SESSION['id'])){
+                                $requete1 = $bdd->prepare('SELECT statut FROM validation WHERE id_user=:id_user');
+                                $requete1->execute(array(
+                                    'id_user' => $_SESSION['id']
+                                ));
+                                
+                                while ($ligne=$requete1->fetch()){
+                                    
+                                    if($ligne[0] == 0){
+                                        ?>
+                                            <li class="nav-item">
+                                                <a onclick=email() class="nav-link"><span style="font-size:150%;" class="lnr lnr-envelope" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                aria-expanded="false">!</span></a>
+                                            </li>
+                                        <?php
+                                    }
+                                }
+                                $requete1->closeCursor();
+                            }
+                            ?>
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
@@ -142,6 +161,10 @@
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
                     <h1>Mes commandes</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="index.php">Accueil<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="commandes.php">Mes commandes</a>
+                    </nav>
                 </div>
             </div>
         </div>

@@ -248,8 +248,8 @@
                 <div class="col-first">
                     <h1>Paiement</h1>
                     <nav class="d-flex align-items-center">
-                        <a href="index.html">Accueil<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="single-product.html">Paiement</a>
+                        <a href="index.php">Accueil<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="checkout.php">Paiement</a>
                     </nav>
                 </div>
             </div>

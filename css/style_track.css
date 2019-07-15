@@ -102,7 +102,8 @@ span.line {
 	background-color:#98D091; 
 }
 .content3 p {
-	margin-left:-50%;
+    margin-left: -68%;
+    margin-top: 5px;
 	font-size:15px;
 	font-weight:600;
 } 
@@ -199,7 +200,7 @@ span.line {
 
 @media(max-width:1440px){
 .content3 p {
-    margin-left: -53%;
+    margin-left: -67%;
 }
 span.line {
     width: 99px;

@@ -1,5 +1,13 @@
 <?php
     session_start();
+    require("parameters.php");
+    try{
+		$bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
+	}
+	catch (Exception $e){
+		die('Erreur : ' . $e->getMessage());
+	}
+	
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -44,7 +52,7 @@
                     <h1>Panier</h1>
                     <nav class="d-flex align-items-center">
                         <a href="index.php">Accueil<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="category.php">Panier</a>
+                        <a href="cart.php">Panier</a>
                     </nav>
                 </div>
             </div>
@@ -91,9 +99,28 @@
 										<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
 									</ul>
 								</li><?php
+								}
 							}
-							}	
-							?>
+							if(isset($_SESSION['id'])){
+								$requete1 = $bdd->prepare('SELECT statut FROM validation WHERE id_user=:id_user');
+								$requete1->execute(array(
+									'id_user' => $_SESSION['id']
+								));
+								
+								while ($ligne=$requete1->fetch()){
+									
+									if($ligne[0] == 0){
+										?>
+											<li class="nav-item">
+												<a onclick=email() class="nav-link"><span style="font-size:150%;" class="lnr lnr-envelope" data-toggle="dropdown" role="button" aria-haspopup="true"
+												aria-expanded="false">!</span></a>
+											</li>
+										<?php
+									}
+								}
+								$requete1->closeCursor();
+							}
+                            ?>
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
@@ -162,7 +189,7 @@
                                 <td>
                                     <div class="checkout_btn_inner align-items-center">
                                         <a class=" col-md-3" href="#"></a>
-                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username']) && ($_SESSION['valid']) !=0) { echo '#'; } else echo '#';?>">Valider le panier</a>
+                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username']) && ($_SESSION['valid']) !=0) { echo 'checkout.php'; } else echo 'login.php';?>">Valider le panier</a>
                                     </div>
                                 </td>
                             </tr>
