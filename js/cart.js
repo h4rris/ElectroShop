@@ -35,6 +35,7 @@ $(document).ready(function(){
 			    obj.forEach(function (element) {
 			    	$('#cart_body>tr').each(function() {
 				    	if ($(this).data('idarticle') == element.id_article) {
+				    		console.log(element.stock_article);
 				    		$(this).find('input').attr('max',element.stock_article);
 				    	}
 				    });

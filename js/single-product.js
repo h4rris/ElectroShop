@@ -102,4 +102,19 @@ $(document).ready(function() {
       $('#product_add_to_cart').css('display', 'none');
     }
 
+    var nb_stars = [];
+    $('.review_item').each(function() {
+      nb_stars.push($(this).find('.fa-star').length);
+    }); 
+    var stars = _.countBy(nb_stars);
+
+    for (var key in stars) {
+      console.log($('#'+key+'_stars').html('('+stars[key]+')'));
+      
+    }
+
+
+
+
+
 });

@@ -42,6 +42,7 @@
     <!-- <link href="css/theme.css" rel="stylesheet" media="all"> -->
     <script src="js/sweetalert.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
     <link rel="stylesheet" href="css/style.css">
 
     
@@ -351,18 +352,15 @@
 								</div>
 								<div class="col-6">
 									<div class="rating_list">
-										<h3>Basé sur 3 notes</h3>
+										<h3>Basé sur <?php echo $nb_etoile; ?> notes</h3>
 										<ul class="list">
-											<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+													 class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;<span id="5_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+													 class="fa fa-star"> &nbsp;</i><span id="4_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;<span id="3_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;<span id="2_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i></i> &nbsp;<span id="1_stars"></span></a></li>
 										</ul>
 									</div>
 								</div>
