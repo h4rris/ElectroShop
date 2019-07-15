@@ -123,7 +123,7 @@
                                 $requete1->closeCursor();
                             }
                             ?>
-							<li class="nav-item submenu dropdown active">
+							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
 								<ul class="dropdown-menu" style="margin-left: -80px;">
