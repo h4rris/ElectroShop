@@ -51,7 +51,7 @@
 			}
 			
 			if (!empty($_POST['username']) && !empty($_POST['password']) ) {
-					$requete1 = $bdd->prepare('SELECT id_user,username,password,statut FROM users WHERE username=:username AND password=:password AND statut != 0');
+					$requete1 = $bdd->prepare('SELECT users.id_user,username,password,users.statut,validation.statut FROM users INNER JOIN validation ON users.id_user=validation.id_user WHERE username=:username AND password=:password AND users.statut != 0');
 					$requete1->execute(array(
 						'username' => $_POST['username'],
 						'password' => $_POST['password']
@@ -61,6 +61,7 @@
 						if(($ligne[1] == $_POST['username']) && ($ligne[2] == $_POST['password'])){
 							$_SESSION['username'] = $_POST['username'];
 							$_SESSION['id'] = $ligne[0];
+							$_SESSION['valid']=$ligne[4];
 							if($ligne[3] == "1"){
 								$_SESSION['statut'] = 1;
 							}
@@ -295,8 +296,8 @@
 										$_SESSION['id'] = $ligne[0];
 									}
 									$rqte2->closeCursor();
-									$_SESSION['username'] = $_POST['Pseudo'];
-									$_SESSION['statut']=1;
+									//$_SESSION['username'] = $_POST['Pseudo'];
+									//$_SESSION['statut']=1;
 									session_write_close();
 									?>
 									<script>

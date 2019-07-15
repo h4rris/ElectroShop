@@ -250,7 +250,7 @@
                                                 
                                                 $requete1->closeCursor();
                                                 // FIN DU PRIX
-                                                echo "<td>".$ligne[3]."</td><td>";?>
+                                                echo "<td>".$ligne[4]."</td><td>";?>
                                                 <div class="table-data-feature">
                                                 <?php 
                                                 echo "<button onclick=valid('$ligne[0]') class='item' data-toggle='tooltip' data-placement='top' title='Gérer les stocks' >

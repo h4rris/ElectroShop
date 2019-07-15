@@ -1,6 +1,7 @@
 <?php
     session_start();
     require("parameters.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,55 +49,48 @@
        if($_POST['radio'] == "formulaire"){
            //nouveau formulaire
            if(!empty($_POST['prenom']) && !empty($_POST['nom']) && !empty($_POST['adresse']) && !empty($_POST['ville']) && !empty($_POST['pays']) && !empty($_POST['codepostal']) && !empty($_POST['telephone'])){
-                // if((strlen($_POST['codepostal']) >5) || (strlen($_POST['telephone']>10))){
-                //     ?><script>
-                //     swal({
-                //         title: "Code Postal et/ou numéro de téléphone invalide !",
-                //         text: "Code Postal : 5 chiffres et Téléphone : 10 chiffres ",
-                //         icon: "error"
-                //         })
-                //         .then((willDelete) => {
-                //             window.location.href = "checkout.php";
-                            
-                //         });
-                //     </script>
-                //     <?php
-                // }
-                // else{
                     ?><script>
-
                         var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
+                        var sous_total = 0;
+                        existingEntries.forEach(function(element) {
+                            sous_total = (element.prix * element.quantity) + sous_total;
+                        });
                         console.log('localStorage');
+                        total=sous_total+5;
                         console.log(existingEntries);
-                        // $.ajax({
-                        //     url : "add_commande.php",
-                        //     data : {
-                        //         typeChgmnt: 'formulaire',
-                        //         prenom : "<?php echo $_POST['prenom'];?>",
-                        //         nom : "<?php echo $_POST['nom'];?>",
-                        //         ville : "<?php echo $_POST['ville'];?>",
-                        //         pays : "<?php echo $_POST['pays'];?>",
-                        //         codepostal : "<?php echo $_POST['codepostal'];?>",
-                        //         telephone : "<?php echo $_POST['telephone'];?>",
-                        //         rue : "<?php echo $_POST['adresse'];?>",
-                        //         panier : existingEntries
-                        //     },
-                        //     cache : false,
-                        //     success : function(response){
-                        //         swal("Action traitée avec succès!", {
-                        //             icon: "success",
-                        //             timer: 3000
-                        //         })
-                        //         .then((willDelete) => {
-                        //             window.location.href = "index.php";
-                        //         });
-                        //     },
-                        //     error : function(request, error){
-                        //         console.log(error);
-                        //     }
-                        // });
+                        
+                        $.ajax({
+                            url : "add_commande.php",
+                            data : {
+                                typeChgmnt: 'formulaire',
+                                prenom : "<?php echo $_POST['prenom'];?>",
+                                nom : "<?php echo $_POST['nom'];?>",
+                                ville : "<?php echo $_POST['ville'];?>",
+                                pays : "<?php echo $_POST['pays'];?>",
+                                codepostal : "<?php echo $_POST['codepostal'];?>",
+                                telephone : "<?php echo $_POST['telephone'];?>",
+                                rue : "<?php echo $_POST['adresse'];?>",
+                                data : existingEntries,
+                                total : total
+
+                            },
+                            cache : false,
+                            success : function(response){
+                                
+                                swal("Action traitée avec succès!", {
+                                    icon: "success",
+                                    timer: 3000
+                                })
+                                .then((willDelete) => {
+										window.location.href = "confirmation.php";
+                                
+                                });
+                            },
+                            error : function(request, error){
+                                console.log(error);
+                            }
+                        });
                     </script><?php
-                // }
             }
             else{
                 ?><script>
@@ -113,7 +107,43 @@
             }
        }
         else{
-            // radio inconnu
+            ?><script>
+                        var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
+                        var sous_total = 0;
+                        existingEntries.forEach(function(element) {
+                            sous_total = (element.prix * element.quantity) + sous_total;
+                        });
+                        console.log('localStorage');
+                        total=sous_total+5;
+                        console.log(existingEntries);
+                        
+                        $.ajax({
+                            url : "add_commande.php",
+                            data : {
+                                typeChgmnt: 'existe',
+                                id_adresse : "<?php echo $_POST['radio'];?>",
+                                data : existingEntries,
+                                total : total
+
+                            },
+                            cache : false,
+							contentType: "application/json",
+                            success : function(response){
+								console.log(response);
+                                swal("Action traitée avec succès!", {
+                                    icon: "success",
+                                    timer: 3000
+                                })
+                                .then((willDelete) => {
+										window.location.href = "confirmation.php?id="+response;
+                                
+                                });
+                            },
+                            error : function(request, error){
+                                console.log(error);
+                            }
+                        });
+                    </script><?php
        }
     }
     
@@ -160,8 +190,26 @@
 								</li><?php
 							}
 							}	
-							?>
-							<li class="nav-item submenu dropdown">
+                            
+                            $requete1 = $bdd->prepare('SELECT statut FROM validation WHERE id_user=:id_user');
+                            $requete1->execute(array(
+                                'id_user' => $_SESSION['id']
+                            ));
+                            
+                            while ($ligne=$requete1->fetch()){
+                                
+                                if($ligne[0] == 0){
+                                    ?>
+                                        <li class="nav-item">
+                                            <a onclick=email() class="nav-link"><span style="font-size:150%;" class="lnr lnr-envelope" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                            aria-expanded="false">!</span></a>
+                                        </li>
+                                    <?php
+                                }
+                            }
+                            $requete1->closeCursor();
+                            ?>
+                            <li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
 								<ul class="dropdown-menu">
@@ -255,7 +303,7 @@
                                 <div class="card">
                                     <div class="card-header" id="headingTwo">
                                     <h5 class="mb-0">
-                                        <input checked disabled type="radio" name="radio" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <input checked type="radio" name="radio" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" value="formulaire">
                                         Saisir une nouvelle adresse de livraison :
                                         </input>
                                     </h5>
@@ -364,16 +412,7 @@
                             </table>
                             <ul class="list list_2">
                                 <li><a href="#">Sous-total <span id="sub_total"></span></a></li>
-                                <li style="margin: 15px 0px 15px 0px;"><a style="position: absolute;">Livraison</a>
-                                    <div align="right">
-                                        <label for="standard">Standard : 5€ &nbsp;</label>
-                                        <input type="radio" id="standard" name="shipping" value="5" checked>
-                                    </div>
-                                    <div align="right">
-                                        <label for="express">Express : 10€ &nbsp;</label>
-                                        <input type="radio" id="express" name="shipping" value="10">
-                                    </div>
-                                </li>
+                                <li><a href="#">Livraison <span id="livraion">5€</span></a></li>
                                 <li><a href="#">Total <span id="total"></span></a></li>
                             </ul>
                             <div class="payment_item active">
@@ -391,6 +430,13 @@
                                 <label for="f-option4">I’ve read and accept the </label>
                                 <a href="#">terms & conditions*</a>
                             </div>
+                            <script
+                                src="https://www.paypal.com/sdk/js?client-id=Ab9LOTR2uxWzZAtl-lPWqxsZtUPrLCYbG-aPVdlmcxUnrA7AjwgBB_iKddRyrvZIDr0kvCm7XkurpyPV">
+                            </script>
+                            <div id="paypal-button-container"></div>
+                            <!-- <script>
+                            paypal.Buttons().render('#paypal-button-container');
+                            </script> -->
                             <button type="submit" value="submit" id="buttonCreate" class="primary-btn" >Proceed to Paypal</button>
                             </form>
                         </div>
@@ -399,6 +445,74 @@
             </div>
         </div>
     </section>
+    <script>
+    paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '10.0'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert('Transaction completed by ' + details.payer.name.given_name);
+        // Call your server to save the transaction
+        return fetch('/confirmation', {
+          method: 'post',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderID: data.orderID
+          })
+        });
+      });
+    }
+  }).render('#paypal-button-container');
+
+    function email(){
+        swal({
+            title: "Votre email n'est pas validée !!",
+            text: "Si vous n'avez pas reçu d'email, appuyez sur OK pour renvoyer un lien d'activation !",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if(willDelete){
+                    $.ajax({
+                        url : "send_verification.php",
+                        data : {
+                            modif : 'oublie'
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal({
+                            title: "Compte crée avec succès !",
+                            text: "Veuilez dès à présent valider votre compte en cliquant sur le mail que vous avez reçu :)",
+                            icon: "success"
+                            })
+                            .then((willDelete) => {
+                                window.location.href = "index.php";
+                                
+                            });
+                        },
+                        error : function(error){
+                            console.log(error);
+                        }
+                    });
+                }
+                else{
+                        swal("Action annulée!", {
+                        icon: "info",
+                        });
+                    }
+            });
+    }
+    </script>
     <!--================End Checkout Area =================-->
 
      <!-- start footer Area -->

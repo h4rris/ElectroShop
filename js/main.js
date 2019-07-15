@@ -11,8 +11,13 @@ $(document).ready(function(){
   $(document).ready(function(){
     if ($(".badge").length) {
       var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
-
-      $(".badge").html(existingEntries.length);
+      if (existingEntries) {
+        $(".badge").html(existingEntries.length);
+      }
+      else{
+        $(".badge").html("0");
+      }
+     
     }
   });
 

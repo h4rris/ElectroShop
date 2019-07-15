@@ -376,7 +376,7 @@
             });
             
         }
-        function suppr(id_commande,id_panier){
+        function suppr(id_commande){
             swal({
             title: "Etes-vous sur de vouloir supprimer cet commande?",
             text: "Si oui, finaliser l'action, si non annuler",
@@ -391,8 +391,7 @@
                         url : "modif_commande.php",
                         data : {
                             typeChgmnt: 'suppression',
-                            id_commande: id_commande,
-                            id_panier :id_panier
+                            id_commande: id_commande
                         },
                         cache : false,
                         success : function(response){
