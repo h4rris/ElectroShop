@@ -152,12 +152,14 @@
     <!--================Tracking Box Area =================-->
     <section class="tracking_box_area section_gap">
     <h3 class="title-5 m-b-35 text-center">Commande Numéro : <?php echo $_GET['order'];?></h3>
-        <?php
+        <?php 
             if(!isset($_SESSION['username'])){
                 if(empty($_GET['order']) || empty($_GET['mail'])){
                     ?>
                         <script>
-                        swal("Erreur ID de Commande Invalide !", {
+                        swal({
+                            title :"Erreur ID de Commande Invalide !",
+                            text : "connectez-vous pour avoir accès à votre commande ",
                             icon: "error",
                             timer: 3000
                         })
@@ -168,7 +170,7 @@
                         </script><?php 
                 }
                 else{
-                    $requete = $bdd->prepare('SELECT DISTINCT(statut_commande),datenow FROM commande INNER JOIN panier AS p ON commande.id_panier = p.id_panier INNER JOIN users AS u ON p.id_user=u.id_user WHERE id_commande=:id_commande AND u.email=:email');
+                    $requete = $bdd->prepare('SELECT DISTINCT(statut_commande),date_now FROM commande INNER JOIN panier AS p ON commande.id_panier = p.id_panier INNER JOIN users AS u ON p.id_user=u.id_user WHERE id_commande=:id_commande AND u.email=:email');
                     $requete->execute(array(
                         'id_commande' => $_GET['order'],
                         'email' => $_GET['mail']

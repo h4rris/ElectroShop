@@ -1,5 +1,6 @@
 <?php
     session_start();
+    
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -181,7 +182,7 @@
                                 <td>
                                     <div class="checkout_btn_inner align-items-center">
                                         <a class=" col-md-3" href="#"></a>
-                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username'])) { echo 'checkout.php'; } else echo 'login.php';?>">Valider le panier</a>
+                                        <a id="cart_validate" class="primary-btn col-md-offset-8 float-right" href="<?php if(isset($_SESSION['username']) && ($_SESSION['valid']) !=0) { echo 'checkout.php'; } else echo 'login.php';?>">Valider le panier</a>
                                     </div>
                                 </td>
                             </tr>

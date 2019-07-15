@@ -1,8 +1,10 @@
 <?php
     session_start();
     require("parameters.php");
-
-    $email = $_GET['email'];
+    if(isset($_GET['email'])){
+        $email = $_GET['email'];
+    }
+    
     try{
         try{
             $bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
@@ -15,22 +17,58 @@
         $token = bin2hex($token);
 
         //recuperation de l'id de l'utilisateur
-        $requete = $bdd->prepare('SELECT id_user FROM users WHERE email=:email');
-        $requete->execute(array(
-            'email' => $email
-        ));
-        while ($ligne=$requete->fetch()){
-            if($ligne[0]){
-                $id_user = $ligne[0];
+        if(isset($_GET['email'])){
+            $requete = $bdd->prepare('SELECT id_user FROM users WHERE email=:email');
+            $requete->execute(array(
+                'email' => $email
+            ));
+            while ($ligne=$requete->fetch()){
+                if($ligne[0]){
+                    $id_user = $ligne[0];
+                }
+            }
+            $requete->closeCursor();
+        }
+        else{
+            $requete = $bdd->prepare('SELECT email FROM users WHERE id_user=:id_user');
+            $requete->execute(array(
+                'id_user' => $_SESSION['id']
+            ));
+            while ($ligne=$requete->fetch()){
+                if($ligne[0]){
+                    $email = $ligne[0];
+                }
+            }
+            $requete->closeCursor();
+        }
+        
+
+
+        // SECOND EMAIL DUCOUP SUPPR PREMIER
+        if(isset($_GET['modif'])){
+            if($_GET['modif'] == 'oublie'){
+                $requete1 = $bdd->prepare('DELETE FROM validation WHERE id_user=:id_user;');
+                $requete1->execute(array(
+                        'id_user' => $_SESSION['id']
+                    ));
+                $requete1->closeCursor();
+                $requete1 = $bdd->prepare('INSERT INTO validation (id_user,token,statut) VALUES(:id_user,:token,"0");');
+                $requete1->execute(array(
+                        'id_user' => $_SESSION['id'],
+                        'token' => $token
+                    ));
+                $requete1->closeCursor();
             }
         }
-        $requete->closeCursor();
-        $requete1 = $bdd->prepare('INSERT INTO validation (id_user,token,statut) VALUES(:id_user,:token,"0");');
-        $requete1->execute(array(
-                'id_user' => $id_user,
-                'token' => $token
-            ));
-        $requete1->closeCursor();
+        else{
+            $requete1 = $bdd->prepare('INSERT INTO validation (id_user,token,statut) VALUES(:id_user,:token,"0");');
+            $requete1->execute(array(
+                    'id_user' => $id_user,
+                    'token' => $token
+                ));
+            $requete1->closeCursor();
+        }
+        
         $subject = 'Validation de votre adresse email';
         $headers = "Content-Type: text/html";
         

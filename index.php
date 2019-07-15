@@ -1,5 +1,13 @@
 <?php
 	session_start();
+	require("parameters.php");
+	try{
+		$bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
+	}
+	catch (Exception $e){
+		die('Erreur : ' . $e->getMessage());
+	}
+	
 ?>
 	<!DOCTYPE html>
 <html>
@@ -91,18 +99,37 @@
 							<?php 
 							if(isset($_SESSION['statut'])){
 								
-								if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
-								<li class="nav-item submenu dropdown">
-									<a href="#" class="nav-link dropdown-toggle">Administration</a>
-									<ul class="dropdown-menu">	
-										<li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
-										<li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
-										<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
-									</ul>
-								</li><?php
+									if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
+									<li class="nav-item submenu dropdown">
+										<a href="#" class="nav-link dropdown-toggle">Administration</a>
+										<ul class="dropdown-menu">	
+											<li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
+											<li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
+											<li class="nav-item"><a class="nav-link" href="gestioncommandes.php">Gestion commandes</a></li>
+										</ul>
+									</li><?php
+								}
 							}
-							}	
-							?>
+							if(isset($_SESSION['id'])){
+								$requete1 = $bdd->prepare('SELECT statut FROM validation WHERE id_user=:id_user');
+								$requete1->execute(array(
+									'id_user' => $_SESSION['id']
+								));
+								
+								while ($ligne=$requete1->fetch()){
+									
+									if($ligne[0] == 0){
+										?>
+											<li class="nav-item">
+												<a onclick=email() class="nav-link"><span style="font-size:150%;" class="lnr lnr-envelope" data-toggle="dropdown" role="button" aria-haspopup="true"
+												aria-expanded="false">!</span></a>
+											</li>
+										<?php
+									}
+								}
+								$requete1->closeCursor();
+							}
+                            ?>
 							<li class="nav-item submenu dropdown">
 								<a href="login.php" class="nav-link dropdown-toggle"><span class="lnr lnr-user" data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"></span></a>
@@ -305,6 +332,47 @@
 			</div>
 		</div>
 	</section>
+	<script>
+    function email(){
+        swal({
+            title: "Votre email n'est pas validée !!",
+            text: "Si vous n'avez pas reçu d'email, appuyez sur OK pour renvoyer un lien d'activation !",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if(willDelete){
+                    $.ajax({
+                        url : "send_verification.php",
+                        data : {
+                            modif : 'oublie'
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal({
+                            title: "Compte crée avec succès !",
+                            text: "Veuilez dès à présent valider votre compte en cliquant sur le mail que vous avez reçu :)",
+                            icon: "success"
+                            })
+                            .then((willDelete) => {
+                                window.location.href = "index.php";
+                                
+                            });
+                        },
+                        error : function(error){
+                            console.log(error);
+                        }
+                    });
+                }
+                else{
+                        swal("Action annulée!", {
+                        icon: "info",
+                        });
+                    }
+            });
+    }
+    </script>
 	<!-- End brand Area -->
 
 	<!-- start footer Area -->

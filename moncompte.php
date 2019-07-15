@@ -3,7 +3,14 @@
     require("parameters.php");
     if(!isset($_SESSION['username'])){
 		header('Location: login.php');
+    }
+    try{   
+		$bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
 	}
+	catch (Exception $e){
+		die('Erreur : ' . $e->getMessage());
+    }	
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,6 +43,8 @@
     <link rel="stylesheet" href="css/ion.rangeSlider.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="css/main.css">
+    <script src="js/sweetalert.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -113,221 +122,179 @@
 		</div>
 	</div>
 	<!-- End Header Area -->
-
+    <?php
+        $requete1 = $bdd->prepare('SELECT email,password FROM users WHERE id_user=:id_user');
+        $requete1->execute(array(
+            'id_user' => $_SESSION['id'],
+        ));
+        while ($ligne=$requete1->fetch()){
+            $mail = $ligne[0];
+            $old_mdp = $ligne[1];
+        }
+        $requete1->closeCursor();
+        if(isset($_POST['buttonProfil'])){
+            if($_POST['actual_username'] != $_SESSION['username']){
+                //modif du username : 
+                if($_POST['actual_username'] != ''){
+                    try{
+                        $requete1 = $bdd->prepare('UPDATE users SET username=:username WHERE id_user=:id_user');
+                        $requete1->execute(array(
+                            'username' => $_POST['actual_username'],
+                            'id_user' => $_SESSION['id']
+                        ));
+                        $requete1->closeCursor();
+                        $_SESSION['username'] = $_POST['actual_username'];
+                    }
+                    catch (Exception $e){
+                        die('Erreur : ' . $e->getMessage());
+                    }    
+                }
+            }
+            elseif ($_POST['actual_email'] != $mail) {
+                
+                if($_POST['actual_email'] != ''){
+                    try{
+                        $requete1 = $bdd->prepare('UPDATE users SET email=:email WHERE id_user=:id_user');
+                        $requete1->execute(array(
+                            'email' => $_POST['actual_email'],
+                            'id_user' => $_SESSION['id']
+                        ));
+                        $requete1->closeCursor();
+                        
+                    }
+                    catch (Exception $e){
+                        die('Erreur : ' . $e->getMessage());
+                    }
+                } 
+            }
+            elseif (($_POST['actual_password1'] == $_POST['actual_password2']) && ($_POST['actual_password1'] != $old_mdp)) {
+                if(($_POST['actual_password1'] != '') && ($_POST['actual_password2'] != '')){
+                    $requete1 = $bdd->prepare('UPDATE users SET password=:password WHERE id_user=:id_user');
+                    $requete1->execute(array(
+                        'password' => $_POST['actual_password1'],
+                        'id_user' => $_SESSION['id']
+                    ));
+                    $requete1->closeCursor();
+                }
+            }
+            
+            ?><script>
+            swal("Action traitée avec succès!", {
+                icon: "success",
+                timer: 3000
+            })
+            .then((willDelete) => {
+                    window.location.href = "moncompte.php";
+            
+            });
+            </script><?php
+        }
+    ?>
     <!--================Blog Area =================-->
     <br/><br/>
     <br/>
     <section class="blog_area single-post-area section_gap">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 posts-list">
+                <div class="col-lg-12 posts-list">
                     <div class="single-post row">
-                        <div class="col-lg-3  col-md-3">
-                            <div class="blog_info text-right">
-                                <div class="post_tag">
-                                    <a href="#">Food,</a>
-                                    <a class="active" href="#">Technology,</a>
-                                    <a href="#">Politics,</a>
-                                    <a href="#">Lifestyle</a>
-                                </div>
-                                <ul class="blog_meta list">
-                                    <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                    <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                    <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                    <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                </ul>
-                                <ul class="social-links">
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-github"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                                </ul>
-                            </div>
+                    <?php 
+                    $requete1 = $bdd->prepare('SELECT email,username FROM users WHERE id_user=:id_user');
+                    $requete1->execute(array(
+                        'id_user' => $_SESSION['id'],
+                    ));
+                    while ($ligne=$requete1->fetch()){
+                        $mail = $ligne[0];
+                        $username= $ligne[1];
+                    }
+                    $requete1->closeCursor();?>
+                    <div class="container">
+                        <h3 class="text-center">Edit Profile</h3>
+                        <hr>
+                        <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-3">
+                            
                         </div>
-                        <div class="col-lg-9 col-md-9 blog_details">
-                            <h2>Astronomy Binoculars A Great Alternative</h2>
-                            <p class="excert">
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand
-                                why you should have to spend money on boot camp when you can get the MCSE study
-                                materials yourself at a fraction.
-                            </p>
-                            <p>
-                                Boot camps have its supporters and its detractors. Some people do not understand why
-                                you should have to spend money on boot camp when you can get the MCSE study materials
-                                yourself at a fraction of the camp price. However, who has the willpower to actually
-                                sit through a self-imposed MCSE training. who has the willpower to actually sit through
-                                a self-imposed
-                            </p>
-                            <p>
-                                Boot camps have its supporters and its detractors. Some people do not understand why
-                                you should have to spend money on boot camp when you can get the MCSE study materials
-                                yourself at a fraction of the camp price. However, who has the willpower to actually
-                                sit through a self-imposed MCSE training. who has the willpower to actually sit through
-                                a self-imposed
-                            </p>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="quotes">
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand
-                                why you should have to spend money on boot camp when you can get the MCSE study
-                                materials yourself at a fraction of the camp price. However, who has the willpower to
-                                actually sit through a self-imposed MCSE training.
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <img class="img-fluid" src="img/blog/post-img1.jpg" alt="">
-                                </div>
-                                <div class="col-6">
-                                    <img class="img-fluid" src="img/blog/post-img2.jpg" alt="">
-                                </div>
-                                <div class="col-lg-12 mt-25">
-                                    <p>
-                                        MCSE boot camps have its supporters and its detractors. Some people do not
-                                        understand why you should have to spend money on boot camp when you can get the
-                                        MCSE study materials yourself at a fraction of the camp price. However, who has
-                                        the willpower.
-                                    </p>
-                                    <p>
-                                        MCSE boot camps have its supporters and its detractors. Some people do not
-                                        understand why you should have to spend money on boot camp when you can get the
-                                        MCSE study materials yourself at a fraction of the camp price. However, who has
-                                        the willpower.
-                                    </p>
+                        
+                        <!-- edit form column -->
+                        <div class="col-md-9 personal-info">
+                            <form class="form-horizontal" method="post">
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">Nom d'utilisateur :</label>
+                                <div class="col-lg-8">
+                                <input class="form-control" type="text" name="actual_username" value="<?php echo $_SESSION['username'];?>">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Email:</label>
+                                <div class="col-lg-8">
+                                <input class="form-control" name="actual_email" type="text" value="<?php echo $mail;?>">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Password:</label>
+                                <div class="col-md-8">
+                                <input class="form-control" name="actual_password1" type="password" value="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Confirm password:</label>
+                                <div class="col-md-8">
+                                <input class="form-control" name="actual_password2" type="password" value="">
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <label class="col-md-3 control-label"></label>
+                                <div class="col-md-8">
+                                <button type="submit" value="submit" name="buttonProfil" id="buttonProfil" class="btn btn-primary">VALIDER</button>
+                                <span></span>
+                                
+                                </div>
+                            </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="navigation-area">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-                                <div class="thumb">
-                                    <a href="#"><img class="img-fluid" src="img/blog/prev.jpg" alt=""></a>
-                                </div>
-                                <div class="arrow">
-                                    <a href="#"><span class="lnr text-white lnr-arrow-left"></span></a>
-                                </div>
-                                <div class="detials">
-                                    <p>Prev Post</p>
-                                    <a href="#">
-                                        <h4>Space The Final Frontier</h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-                                <div class="detials">
-                                    <p>Next Post</p>
-                                    <a href="#">
-                                        <h4>Telescopes 101</h4>
-                                    </a>
-                                </div>
-                                <div class="arrow">
-                                    <a href="#"><span class="lnr text-white lnr-arrow-right"></span></a>
-                                </div>
-                                <div class="thumb">
-                                    <a href="#"><img class="img-fluid" src="img/blog/next.jpg" alt=""></a>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <hr>
+                        
                     </div>
                     <div class="comments-area">
-                        <h4>05 Comments</h4>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c1.jpg" alt="">
+                        <h4>Mes commentaires</h4>
+                        <?php 
+                        $requete1 = $bdd->prepare('SELECT id_com,commentaires.id_article,id_user,message,nb_etoile,nom_article FROM commentaires INNER JOIN article ON commentaires.id_article=article.id_article WHERE id_user=:id_user');
+                        $requete1->execute(array(
+                            'id_user' => $_SESSION['id'],
+                        ));
+                        while ($ligne=$requete1->fetch()){
+                           ?>
+                            <div class="comment-list">
+                                <div class="single-comment justify-content-between d-flex">
+                                    <div class="user justify-content-between d-flex">
+                                        <div class="thumb">
+                                            <img src="img/user.png" alt="">
+                                        </div>
+                                        <div class="desc">
+                                            <h5><a><?php echo $username;?> </a></h5>
+                                            <p class="date">Article : <?php echo $ligne[5];?><br>
+                                            Nombre d'étoile :<?php echo $ligne[4];?> </p>
+                                            <p class="comment">
+                                            <?php echo $ligne[3];?>
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="desc">
-                                        <h5><a href="#">Emilly Blunt</a></h5>
-                                        <p class="date">December 4, 2018 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
+                                    <div class="reply-btn">
+                                       <?php echo "<a onclick=supprime_com('$ligne[0]') class='btn-reply text-uppercase'>Supprimer</a>";?>
                                     </div>
-                                </div>
-                                <div class="reply-btn">
-                                    <a href="" class="btn-reply text-uppercase">reply</a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="comment-list left-padding">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c2.jpg" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <h5><a href="#">Elsie Cunningham</a></h5>
-                                        <p class="date">December 4, 2018 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="reply-btn">
-                                    <a href="" class="btn-reply text-uppercase">reply</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-list left-padding">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c3.jpg" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <h5><a href="#">Annie Stephens</a></h5>
-                                        <p class="date">December 4, 2018 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="reply-btn">
-                                    <a href="" class="btn-reply text-uppercase">reply</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c4.jpg" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <h5><a href="#">Maria Luna</a></h5>
-                                        <p class="date">December 4, 2018 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="reply-btn">
-                                    <a href="" class="btn-reply text-uppercase">reply</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c5.jpg" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <h5><a href="#">Ina Hayes</a></h5>
-                                        <p class="date">December 4, 2018 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="reply-btn">
-                                    <a href="" class="btn-reply text-uppercase">reply</a>
-                                </div>
-                            </div>
-                        </div>
+                            <?php
+                        }
+                        $requete1->closeCursor();?>
+                        
                     </div>
-                    <div class="comment-form">
+                    <!-- <div class="comment-form">
                         <h4>Leave a Reply</h4>
                         <form>
                             <div class="form-group form-inline">
@@ -350,29 +317,51 @@
                             </div>
                             <a href="#" class="primary-btn submit_btn">Post Comment</a>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="col-lg-4">
-                    <div class="blog_right_sidebar">
-                        <aside class="single_sidebar_widget author_widget">
-                            <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
-                            <h4><?php echo $_SESSION['username'];?></h4>
-                            <br/>
-                            <p>E-mail: villedieu.anthony@yahoo.com</p>
-                            <div class="br"></div>
-                            <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you
-                                should have to spend money on boot camp when you can get. Boot camps have itssuppor
-                                ters andits detractors.</p>
-                            
-                        </aside>
-                        
-                    </div>
-                </div>
+                
             </div>
         </div>
     </section>
+    
     <!--================Blog Area =================-->
-
+    <script>
+        function supprime_com(id_com){
+            swal({
+            title: "Etes-vous sur de vouloir supprimer ce commentaire ?",
+            text: "Si oui, finaliser l'action, si non annuler",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(id_com);
+                    $.ajax({
+                        url : "modif_com.php",
+                        data : {
+                            id_com: id_com
+                        },
+                        cache : false,
+                        success : function(response){
+                            swal("Action traitée avec succès!", {
+                                icon: "success",
+                                timer: 3000
+                            })
+                            .then((willDelete) => {
+                                    window.location.href = "moncompte.php";
+                            
+                            });
+                        },
+                        error : function(request, error){
+                            console.log(error);
+                        }
+                    });
+                } 
+            }); 
+        }
+    
+    </script>
     <!-- start footer Area -->
 	<footer class="footer-area section_gap">
 		<div class="container">

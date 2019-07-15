@@ -32,8 +32,8 @@
         }
         else{
             $_SESSION['validate']=1;
+            $_SESSION['valid']=1;
             session_write_close();
-            echo $_SESSION['validate'];
             header('Location: index.php');
 
         }

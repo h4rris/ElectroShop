@@ -2,10 +2,14 @@ $(document).ready(function(){
 	if ($("#cart_section").length) {
 
 		var existingEntries = JSON.parse(localStorage.getItem("cart_items"));
-
-		existingEntries.forEach(function(element) {
-			$('#cart_body').prepend('<tr data-idArticle="'+element.id_article+'"><td><div class="media"><div class="d-flex"><img src="'+ element.image +'" style="height: 137px; width: 191px;" alt=""></div> <div class="media-body"> <p>'+ element.text +'</p><br/><p><a href="javascript:void(0)" class="supprimer_article">Supprimer</a></p> </div> </div> </td> <td> <h5 class="prix_article">'+ element.prix + '€' + '</h5> </td> <td> <div class="product_count"> <input type="number" name="qty" class="quantity" max="10" value="'+ element.quantity +'" class="input-text qty"> <button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button> <button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button> </div> </td> <td> <h5 class="prix_total_par_article">'+ element.quantity * element.prix + "€" +'</h5> </td> </tr>');
-		});
+		if(existingEntries){
+			existingEntries.forEach(function(element) {
+				$('#cart_body').prepend('<tr data-idArticle="'+element.id_article+'"><td><div class="media"><div class="d-flex"><img src="'+ element.image +'" style="height: 137px; width: 191px;" alt=""></div> <div class="media-body"> <p>'+ element.text +'</p><br/><p><a href="javascript:void(0)" class="supprimer_article">Supprimer</a></p> </div> </div> </td> <td> <h5 class="prix_article">'+ element.prix + '€' + '</h5> </td> <td> <div class="product_count"> <input type="number" name="qty" class="quantity" max="10" value="'+ element.quantity +'" class="input-text qty"> <button class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button> <button class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button> </div> </td> <td> <h5 class="prix_total_par_article">'+ element.quantity * element.prix + "€" +'</h5> </td> </tr>');
+			});
+		}
+		else{
+			$('#cart_body').prepend('<h3 class="text center">Aucun article dans le panier !!</h3>');
+		}
 
 		function update_cart_total(id_article, quantity) {
 			// $('#total_amount_cart');
@@ -18,13 +22,13 @@ $(document).ready(function(){
 			$('#total_amount_cart').html(total);
 			$('#total_amount_cart').data("total", total);
 
-
-			existingEntries.forEach(function(element) {
-				if (element.id_article == id_article) {
-					element.quantity = quantity;
-				}
-			});
-
+			if(existingEntries){
+				existingEntries.forEach(function(element) {
+					if (element.id_article == id_article) {
+						element.quantity = quantity;
+					}
+				});
+			}
 			localStorage.setItem("cart_items", JSON.stringify(existingEntries));
 		}
 
