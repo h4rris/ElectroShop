@@ -81,7 +81,7 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="index.php">Home</a></li>
+							<li class="nav-item "><a class="nav-link" href="index.php">Home</a></li>
 							<li class="nav-item"><a class="nav-link" href="category.php">Articles</a></li>
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -96,8 +96,8 @@
 							if(isset($_SESSION['statut'])){
 								
 								if(($_SESSION['statut'] == "2") || ($_SESSION['statut'] == "3")){?>
-								<li class="nav-item submenu dropdown">
-									<a href="#" class="nav-link dropdown-toggle">Administration</a>
+								<li class="nav-item submenu dropdown active">
+									<a href="#" class="nav-link dropdown-toggle ">Administration</a>
 									<ul class="dropdown-menu">	
 										<li class="nav-item"><a class="nav-link" href="gestionarticles.php">Gestion des Articles</a></li>
 										<li class="nav-item"><a class="nav-link" href="gestioncomptes.php">Gestion des comptes</a></li>
