@@ -67,9 +67,19 @@ $(document).ready(function(){
 	if ($("#article_section").length) {
 
 		$(document).on('click', 'a[data-toggle="collapse"]', function() {
-			$('div[data-group="article"]').hide();
-			$('div[data-category="'+ $(this).data('group')+'"]').show();
+			if($(this).data('group') === 'show_all') {
+				$('div[data-group="article"]').show();
+			}
+			else
+			{
+				$('div[data-group="article"]').hide();
+				$('div[data-category="'+ $(this).data('group')+'"]').show();
+			}
+			
 		});
+
+		$('#number_show_all').html('('+$('div[data-group="article"]').length+')');
+		
 
 		$(document).on('click', '.add_to_cart', function() {
 			var parent_of_all = $(this).closest("div[class^='col-']");

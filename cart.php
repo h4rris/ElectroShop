@@ -156,25 +156,6 @@
                                     <h5><div id="total_amount_cart" style="display: inline-block;"></div><div style="display: inline-block;">€</div></h5>
                                 </td>
                             </tr>
-                            <tr class="shipping_area">
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-                                    <h5>Livraison</h5>
-                                </td>
-                                <td>
-                                    <div class="shipping_box">
-                                        <ul class="list">
-                                            <li class="Shipping_option active" data-delivery-price="5"><a >Standard : 5€</a></li>
-                                            <li class="Shipping_option express" data-delivery-price="10"><a >Express : 10€</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
                             <tr class="out_button_area">
                                 <td></td>
                                 <td></td>

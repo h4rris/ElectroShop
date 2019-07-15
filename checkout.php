@@ -437,7 +437,7 @@
                             <!-- <script>
                             paypal.Buttons().render('#paypal-button-container');
                             </script> -->
-                            <button type="submit" value="submit" id="buttonCreate" class="primary-btn" >Proceed to Paypal</button>
+                            <button type="submit" value="submit" id="buttonCreate" class="primary-btn" style="display: none;">Proceed to Paypal</button>
                             </form>
                         </div>
                     </div>

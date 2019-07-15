@@ -20,5 +20,7 @@ $(document).ready(function(){
 		$('#total').html(sous_total + parseInt($(this).attr('value')) + '€');
 	});
 
-	$(document).on('click')
+	$(document).on('click', '#paypal-button-container', function() {
+		$('#buttonCreate').trigger("click");
+	});
 });

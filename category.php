@@ -149,7 +149,10 @@
 				<div class="sidebar-categories">
 					<div class="head">Filtrer les catégories</div>
 					<ul class="main-categories">
+						<li class="main-nav-list"><a data-toggle="collapse" href="" aria-expanded="false" data-group="show_all"><span class="lnr lnr-arrow-right"></span>Afficher Tout<span id="number_show_all" class="number"></span></a>
+							</li>
 						<?php 
+							
 							$group_by_articles = [];
 							foreach ( $donnees_articles as $value ) {
 							    $group_by_articles[$value['nom_categorie']][] = $value;

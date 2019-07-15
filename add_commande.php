@@ -2,16 +2,12 @@
 session_start();
 require("parameters.php");
     try{   
-		$bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
-	}
-	catch (Exception $e){
-		die('Erreur : ' . $e->getMessage());
-    }	
+        $bdd = new PDO('mysql:host='.$serveur.';dbname='.$db.';charset=utf8',$login,$mdp);
+    }
+    catch (Exception $e){
+        die('Erreur : ' . $e->getMessage());
+    }   
     $typeChgmnt = $_GET['typeChgmnt'];
-    $panier = $_POST['panier'];
-        echo "<pre>";
-        print_r($_GET['panier']);
-        echo "</pre>";
     if($typeChgmnt == 'formulaire'){
         // AJOUT DU PANIER
         $date_now =date("Y-m-d_H-i-s");
@@ -23,7 +19,6 @@ require("parameters.php");
             while ($ligne=$requete->fetch()){
                 $max_id=$ligne[0];
             }
-
             $requete->closeCursor();
         }
         catch (Exception $e){
@@ -61,7 +56,6 @@ require("parameters.php");
         catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
         }
-
         // AJOUT DE L adresse de livraison
         $prenom= $_GET['prenom'];
         $nom= $_GET['nom'];
@@ -82,7 +76,6 @@ require("parameters.php");
         catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
         }
-
         try{
             $requete = $bdd->prepare('INSERT INTO adresse_livraison(id_user,id_commande,rue,ville,pays_livraison,code_postal,tel_livraison,nom_livraison,prenom_livraison) VALUES(:id_user,:id_commande,:rue,:ville,:pays_livraison,:code_postal,:tel_livraison,:nom_livraison,:prenom_livraison)');
             $requete->execute(array(
@@ -128,12 +121,12 @@ require("parameters.php");
         $message .= '<p style="text-align: center;">ELECTROSHOP.</p>';
         $message .= '</body></html>';
         mail($email,$subject, $message, $headers);
-		$data= $id_commande;
-		echo json_encode(intval($data));
+        $data= $id_commande;
+        echo json_encode(intval($data));
     }
-	elseif($typeChgmnt == 'existe'){
-		
-		// AJOUT DU PANIER
+    elseif($typeChgmnt == 'existe'){
+        
+        // AJOUT DU PANIER
         $date_now =date("Y-m-d_H-i-s");
         $max_id=0;
         //recuperation de lid max 
@@ -180,9 +173,8 @@ require("parameters.php");
         catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
         }
-		$id_commande=0;
+        $id_commande=0;
         try{
-
             // on recup le plus grand id commande -> le dernier
             $requete = $bdd->prepare('SELECT MAX(id_commande) FROM commande');
             $requete->execute();
@@ -194,8 +186,8 @@ require("parameters.php");
         catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
         }
-		// INSERT INTO ADRESSE 
-		$old_adresse = $_GET['id_adresse'];
+        // INSERT INTO ADRESSE 
+        $old_adresse = $_GET['id_adresse'];
         try{
             $requete = $bdd->prepare('INSERT INTO adresse_livraison(id_user,id_commande,rue,ville,pays_livraison,code_postal,tel_livraison,nom_livraison,prenom_livraison) SELECT id_user,:id_commande,rue,ville,pays_livraison,code_postal,tel_livraison,nom_livraison,prenom_livraison FROM adresse_livraison WHERE id_adresse=:id_adresse');
             $requete->execute(array(
@@ -222,8 +214,7 @@ require("parameters.php");
         catch (Exception $e){
             die('Erreur : ' . $e->getMessage());
         }
-
-		$subject = 'Merci de pour votre commande ! ';
+        $subject = 'Merci de pour votre commande ! ';
         $headers = "Content-Type: text/html";
         
         $message = '<html><body>';
@@ -235,7 +226,7 @@ require("parameters.php");
         $message .= '<p style="text-align: center;">ELECTROSHOP.</p>';
         $message .= '</body></html>';
         mail($email,$subject, $message, $headers);
-		$data= $id_commande;
-		echo json_encode(intval($data));
-	}
+        $data= $id_commande;
+        echo json_encode(intval($data));
+    }
 ?>
