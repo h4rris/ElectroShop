@@ -42,6 +42,7 @@
     <!-- <link href="css/theme.css" rel="stylesheet" media="all"> -->
     <script src="js/sweetalert.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
     <link rel="stylesheet" href="css/style.css">
 
     
@@ -202,7 +203,7 @@
 						<h2 id="prix"><?php echo reset($donnees_articles)['prix']."€"; ?></h2>
 						<ul class="list">
 							<li><a class="active"><span>Catégorie</span> : <?php echo reset($donnees_articles)['texte_categorie']; ?></a></li>
-							<li><a><span>Disponibilité</span> : <?php if(reset($donnees_articles)['stock_article'] >1) { echo reset($donnees_articles)['stock_article']. ' articles en stock'; } else { echo '<span style="color:red">En rupture de stock</span>';} ?></a></li>
+							<li><a><span>Disponibilité</span> : <?php if(reset($donnees_articles)['stock_article'] >1) { echo reset($donnees_articles)['stock_article']. ' articles en stock'; } else { echo '<span style="color:red;width: 150px;">En rupture de stock</span>';} ?></a></li>
 						</ul>
 						<?php
 						$requete = $bdd->prepare('SELECT description_article FROM article WHERE id_article=:id_article;');
@@ -353,18 +354,15 @@
 								</div>
 								<div class="col-6">
 									<div class="rating_list">
-										<h3>Basé sur 3 notes</h3>
+										<h3>Basé sur <?php echo $nb_etoile; ?> notes</h3>
 										<ul class="list">
-											<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+													 class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;<span id="5_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+													 class="fa fa-star"> &nbsp;</i><span id="4_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;<span id="3_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i><i class="fa fa-star"></i> &nbsp;<span id="2_stars"></span></a></li>
+											<li><a><i class="fa fa-star"></i></i> &nbsp;<span id="1_stars"></span></a></li>
 										</ul>
 									</div>
 								</div>
